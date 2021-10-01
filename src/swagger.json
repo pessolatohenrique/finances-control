@@ -1,0 +1,490 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Template Sequelize",
+    "description": "O objetivo deste projeto é fornecer um template com recursos comuns à todos os projetos em Node.js e Sequelize (Framework ORM). Entre os recursos estão: recursos de variáveis de ambiente, segurança com access token e refresh tokens, RBAC, ORM, tratamento de erros, recuperação de senha;",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Login and generate token to an existing user",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Username and password to login",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Token is generated"
+          },
+          "401": {
+            "description": "Invalid username or password / User does not exists"
+          }
+        }
+      }
+    },
+    "/refresh_token": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Updates token with refresh token",
+        "parameters": [
+          {
+            "name": "refreshtoken",
+            "in": "body",
+            "description": "Refresh Token got into login",
+            "schema": {
+              "$ref": "#/definitions/RefreshToken"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Token is generated"
+          },
+          "401": {
+            "description": "Invalid refresh token"
+          }
+        }
+      }
+    },
+    "/book": {
+      "get": {
+        "tags": ["Books"],
+        "description": "Index of Books",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": true,
+            "description": "Title of book",
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/book/sumPagesByAuthor": {
+      "get": {
+        "tags": ["Books"],
+        "description": "Group pages by author",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/book/countByAuthor": {
+      "get": {
+        "tags": ["Books"],
+        "description": "Count total books by author",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/book/{id}": {
+      "get": {
+        "tags": ["Books"],
+        "description": "Get details of a book",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the book",
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/author": {
+      "get": {
+        "tags": ["Authors"],
+        "description": "Index of Authors",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Authors"],
+        "description": "Store a new author",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "name",
+            "in": "body",
+            "description": "Full name of the author",
+            "schema": {
+              "$ref": "#/definitions/Author"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/author/{id}": {
+      "get": {
+        "tags": ["Authors"],
+        "description": "Get details of ma author",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the author",
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Authors"],
+        "description": "Update a specific author",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "name",
+            "in": "body",
+            "description": "Full name of the author",
+            "schema": {
+              "$ref": "#/definitions/Author"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Authors"],
+        "description": "Delete a specific author",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/author/{id}/restore": {
+      "get": {
+        "tags": ["Authors"],
+        "description": "Restore a specific author, that was deleted",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/author/{id}/books": {
+      "get": {
+        "tags": ["Authors"],
+        "description": "Get the books of an author",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the author",
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "User": {
+      "required": ["username", "password"],
+      "properties": {
+        "username": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "RefreshToken": {
+      "required": ["refreshToken"],
+      "properties": {
+        "refreshToken": {
+          "type": "string"
+        }
+      }
+    },
+    "Book": {
+      "required": ["name", "pages", "authorId"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "pages": {
+          "type": "integer"
+        },
+        "authorId": {
+          "type": "integer"
+        }
+      }
+    },
+    "Author": {
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

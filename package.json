@@ -1,0 +1,53 @@
+{
+  "name": "finance-control",
+  "version": "1.0.0",
+  "description": "O objetivo deste projeto é realizar o controle de finanças pessoais, por meio de receitas, gastos e investimentos realizados",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "nodemon ./src/index.js --ignore __tests__",
+    "pretest": "NODE_ENV=test sequelize db:migrate && NODE_ENV=test sequelize db:seed:all",
+    "test": "NODE_ENV=test jest",
+    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all",
+    "debug": "node --inspect ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pessolatohenrique/template-node-sequelize.git"
+  },
+  "keywords": [
+    "template",
+    "node",
+    "sequelize"
+  ],
+  "author": "pessolatohenrique",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pessolatohenrique/template-node-sequelize/issues"
+  },
+  "homepage": "https://github.com/pessolatohenrique/template-node-sequelize#readme",
+  "dependencies": {
+    "accesscontrol": "^2.2.1",
+    "bcrypt": "^3.0.0",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.26.0",
+    "mysql2": "^2.2.5",
+    "nodemailer": "^6.6.3",
+    "passport": "^0.4.1",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7",
+    "redis": "^3.0.2",
+    "sequelize": "^6.5.0",
+    "sequelize-cli": "^6.2.0",
+    "socket.io": "^4.2.0",
+    "swagger-ui-express": "^4.1.6"
+  },
+  "devDependencies": {
+    "jest": "25.0.0",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.3"
+  }
+}
