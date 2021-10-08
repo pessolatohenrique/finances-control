@@ -5,6 +5,9 @@ ac.grant("user").readAny("book", ["name", "pages"]);
 
 ac.grant("admin")
   .extend("user")
+  .readAny("user")
+  .updateAny("user")
+  .createAny("user")
   .readAny("book")
   .createAny("author")
   .readAny("author")

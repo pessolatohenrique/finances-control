@@ -17,8 +17,13 @@ const swaggerDocument = require("./swagger.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((error, req, res, next) => {
-  console.log("error", error);
+  console.log("error", error.name);
   if (error.name === "SequelizeValidationError") {
+    res.status(400).json(error);
+    return next();
+  }
+
+  if (error.name === "SequelizeUniqueConstraintError") {
     res.status(400).json(error);
     return next();
   }
