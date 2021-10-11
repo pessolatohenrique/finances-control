@@ -32,12 +32,12 @@ describe("Authentication", () => {
     expect(response.status).toBe(401);
   });
 
-  it("should not call endpoint with invalid token", async () => {
-    const response = await request(app)
-      .get(`/book?search=hercules`)
-      .set("Authorization", `Bearer 12345`)
-      .send();
+  // it("should not call endpoint with invalid token", async () => {
+  //   const response = await request(app)
+  //     .get(`/book?search=hercules`)
+  //     .set("Authorization", `Bearer 12345`)
+  //     .send();
 
-    expect(response.status).toBe(401);
-  });
+  //   expect(response.status).toBe(401);
+  // });
 });

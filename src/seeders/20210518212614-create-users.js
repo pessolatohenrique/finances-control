@@ -19,6 +19,7 @@ module.exports = {
             process.env.DEFAULT_PASSWORD,
             ROUNDS_BCRYPT
           ),
+          role: "admin",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -29,6 +30,7 @@ module.exports = {
             process.env.DEFAULT_PASSWORD,
             ROUNDS_BCRYPT
           ),
+          role: "user",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
