@@ -110,4 +110,43 @@ describe("User CRUD", () => {
 
     expect(response.status).toBe(403);
   });
+
+  it("should request forgot password when user exists", async () => {
+    const response = await request(app).post("/forgot_password").send({
+      email: "testenovousuario@gmail.com",
+    });
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not request forgot password when user does not exist", async () => {
+    const response = await request(app).post("/forgot_password").send({
+      email: "emailnaoexiste@gmail.com",
+    });
+
+    expect(response.status).toBe(404);
+  });
+
+  it("should reset password with valid token", async () => {
+    const responseForgot = await request(app).post("/forgot_password").send({
+      email: "testenovousuario@gmail.com",
+    });
+
+    const responseReset = await request(app)
+      .get(`/reset_password/${responseForgot.body.token}`)
+      .send({
+        password: process.env.CORRECT_PASSWORD_TEST,
+      });
+
+    expect(responseReset.status).toBe(200);
+    expect(responseReset.body).toHaveProperty("message");
+  });
+
+  it("should not reset password with invalid token", async () => {
+    const responseReset = await request(app).get(`/reset_password/12345`).send({
+      password: process.env.CORRECT_PASSWORD_TEST,
+    });
+
+    expect(responseReset.status).toBe(401);
+  });
 });

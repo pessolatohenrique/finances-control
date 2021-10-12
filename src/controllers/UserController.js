@@ -16,7 +16,7 @@ class UserController {
    * @param {object} res response from express
    * @return {object} response with access token and refresh token
    */
-  static async login(req, res) {
+  static async login(req, res, next) {
     try {
       const { user } = req;
       const token = tokens.access.create(user.id);
@@ -24,7 +24,7 @@ class UserController {
       res.set({ Authorization: token });
       return res.status(200).json({ accessToken: token, refreshToken });
     } catch (error) {
-      return res.status(500).json(error);
+      return next(error);
     }
   }
 
@@ -44,9 +44,10 @@ class UserController {
       const emailObj = new ForgotPasswordEmail(email, token);
       emailObj.send();
 
-      return res
-        .status(200)
-        .json({ message: "Verifique o seu e-mail para redefinir a senha!" });
+      return res.status(200).json({
+        message: "Verifique o seu e-mail para redefinir a senha!",
+        token,
+      });
     } catch (error) {
       return next(error);
     }
@@ -113,13 +114,10 @@ class UserController {
         where: { id },
       });
 
-      if (updated) {
+      if (updated.length > 0) {
         const result = await model.findOne({ where: { id } });
-        if (!result) throw new NotFoundError();
         return res.status(200).json(result);
       }
-
-      return res.status(200).json({ message: `user ${id} not found` });
     } catch (error) {
       return next(error);
     }
