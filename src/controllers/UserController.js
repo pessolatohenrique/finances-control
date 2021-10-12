@@ -91,6 +91,11 @@ class UserController {
     try {
       const { id } = req.params;
       const result = await model.findOne({ where: { id } });
+
+      if (!result) {
+        throw new NotFoundError();
+      }
+
       return res.status(200).json(result);
     } catch (error) {
       return next(error);
@@ -99,6 +104,10 @@ class UserController {
 
   static async update(req, res, next) {
     try {
+      if (req.body.password) {
+        req.body.password = await bcrypt.hash(req.body.password, ROUNDS_BCRYPT);
+      }
+
       const { id } = req.params;
       const updated = await model.update(req.body, {
         where: { id },
@@ -106,6 +115,7 @@ class UserController {
 
       if (updated) {
         const result = await model.findOne({ where: { id } });
+        if (!result) throw new NotFoundError();
         return res.status(200).json(result);
       }
 
