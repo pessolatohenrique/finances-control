@@ -56,7 +56,6 @@ module.exports = {
       const user = await req.user;
       const permissionName = convertRouteToPermission(req.route.path);
       const ruleName = `${convertHttpToRole(req.method)}Any`;
-      console.log("req method", ruleName, permissionName);
 
       const permission = accessControl.can(user.role)[ruleName](permissionName);
 
