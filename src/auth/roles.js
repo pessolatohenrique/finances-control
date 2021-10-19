@@ -5,7 +5,10 @@ ac.grant("user")
   .readAny("book", ["name", "pages"])
   .readAny("recipe")
   .createAny("recipe")
-  .updateAny("recipe");
+  .updateAny("recipe")
+  .readAny("category")
+  .createAny("category")
+  .updateAny("category");
 
 ac.grant("admin")
   .extend("user")
