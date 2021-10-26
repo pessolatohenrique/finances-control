@@ -8,7 +8,9 @@ ac.grant("user")
   .updateAny("recipe")
   .readAny("category")
   .createAny("category")
-  .updateAny("category");
+  .updateAny("category")
+  .readAny("recipe_category")
+  .createAny("recipe_category");
 
 ac.grant("admin")
   .extend("user")

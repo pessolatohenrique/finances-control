@@ -3,7 +3,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("recipe_category", {
-      recipe_id: {
+      recipeId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
@@ -13,7 +13,7 @@ module.exports = {
           onDelete: "CASCADE",
         },
       },
-      category_id: {
+      categoryId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
@@ -22,6 +22,10 @@ module.exports = {
           onUpdate: "CASCADE",
           onDelete: "CASCADE",
         },
+      },
+      percentage: {
+        allowNull: false,
+        type: Sequelize.DOUBLE,
       },
       createdAt: {
         allowNull: false,
