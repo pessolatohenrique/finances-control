@@ -1,10 +1,13 @@
 const model = require("../models").Recipe;
+const category = require("../models").Category;
 const { NotFoundError } = require("../utils/Errors");
 
 class RecipeController {
   static async index(req, res, next) {
     try {
-      const result = await model.findAll();
+      const result = await model.findAll({
+        include: category,
+      });
       return res.status(200).json(result);
     } catch (error) {
       return next(error);
@@ -14,7 +17,7 @@ class RecipeController {
   static async show(req, res, next) {
     try {
       const { id } = req.params;
-      const result = await model.findOne({ where: { id } });
+      const result = await model.findOne({ where: { id }, include: category });
 
       if (!result) throw new NotFoundError();
 

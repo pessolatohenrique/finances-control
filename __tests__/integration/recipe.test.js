@@ -26,6 +26,7 @@ describe("Recipe CRUD", () => {
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("name", "By Nath Arcuri");
+    expect(response.body).toHaveProperty("Categories");
   });
 
   it("should not found unexpected recipe", async () => {
