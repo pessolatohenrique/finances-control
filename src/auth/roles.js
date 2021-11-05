@@ -10,7 +10,10 @@ ac.grant("user")
   .createAny("category")
   .updateAny("category")
   .readAny("recipe_category")
-  .createAny("recipe_category");
+  .createAny("recipe_category")
+  .readAny("earning")
+  .createAny("earning")
+  .updateAny("earning");
 
 ac.grant("admin")
   .extend("user")
