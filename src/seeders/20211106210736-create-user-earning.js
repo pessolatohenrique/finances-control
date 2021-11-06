@@ -1,5 +1,6 @@
 "use strict";
 const model = require("../models").UserEarning;
+const moment = require("moment");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -23,6 +24,22 @@ module.exports = {
           earningId: 2,
           value: 150,
           transaction_date: "2021-09-05",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          userId: 1,
+          earningId: 1,
+          value: 4019,
+          transaction_date: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          userId: 1,
+          earningId: 2,
+          value: 150,
+          transaction_date: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
         },

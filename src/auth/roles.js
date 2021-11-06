@@ -13,7 +13,8 @@ ac.grant("user")
   .createAny("recipe_category")
   .readAny("earning")
   .createAny("earning")
-  .updateAny("earning");
+  .updateAny("earning")
+  .readAny("user_earning");
 
 ac.grant("admin")
   .extend("user")
