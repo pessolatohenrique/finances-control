@@ -28,6 +28,11 @@ app.use((error, req, res, next) => {
     return next();
   }
 
+  if (error.name === "AggregateError") {
+    res.status(400).json(error);
+    return next();
+  }
+
   res.status(error.getStatusCode()).json({ message: error.message });
   return next(error);
 });

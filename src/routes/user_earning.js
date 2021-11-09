@@ -6,7 +6,8 @@ const router = Router();
 
 router
   .route("/user_earning")
-  .get([middlewares.bearer, middlewares.rbac], UserEarningController.index);
+  .get([middlewares.bearer, middlewares.rbac], UserEarningController.index)
+  .post([middlewares.bearer, middlewares.rbac], UserEarningController.store);
 //   .post([middlewares.bearer, middlewares.rbac], UserEarningController.store);
 
 // router.route("/recipe_category/:id");
