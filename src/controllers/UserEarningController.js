@@ -2,6 +2,7 @@ const { Op } = require("sequelize");
 const moment = require("moment");
 const User = require("../models").User;
 const Earning = require("../models").Earning;
+const { NotFoundError } = require("../utils/Errors");
 
 class UserEarningController {
   static async index(req, res, next) {
@@ -28,6 +29,26 @@ class UserEarningController {
 
       return res.status(200).json(result);
     } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async show(req, res, next) {
+    try {
+      const { earning_id } = req.params;
+      const result = await Earning.findOne({
+        where: {
+          "$Users.id$": req.user.id,
+          id: earning_id,
+        },
+        include: User,
+      });
+
+      if (!result) throw new NotFoundError();
+
+      return res.status(200).json(result);
+    } catch (error) {
+      console.log("error", error);
       return next(error);
     }
   }

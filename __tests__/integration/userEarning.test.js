@@ -62,7 +62,7 @@ describe("User Earning CRUD", () => {
     expect(response.status).toBe(200);
   });
 
-  it("should not save when relation fields are empty", async () => {
+  it("should save when relation fields are not empty", async () => {
     const response = await request(app)
       .post("/user_earning")
       .set("Authorization", `Bearer ${token}`)
@@ -79,7 +79,7 @@ describe("User Earning CRUD", () => {
         ],
       });
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(200);
   });
 
   it("should not save when earning name is empty", async () => {
@@ -94,16 +94,10 @@ describe("User Earning CRUD", () => {
             value: 2000,
             transaction_date: "2021-11-09",
           },
-          {
-            name: "",
-            isPublic: true,
-            value: 2000,
-            transaction_date: "2021-11-09",
-          },
         ],
       });
 
-    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("errors");
   });
 
   it("should save user with earnings", async () => {
@@ -129,5 +123,22 @@ describe("User Earning CRUD", () => {
 
     expect(response.status).toBe(200);
     expect(response.body.Earnings.length).toBe(4);
+  });
+
+  it("should not found when earning not exists", async () => {
+    const response = await request(app)
+      .get("/user_earning/9999")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
+
+  it("should found when earning exists", async () => {
+    const response = await request(app)
+      .get("/user_earning/1")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("name", "Earning Updated");
   });
 });
