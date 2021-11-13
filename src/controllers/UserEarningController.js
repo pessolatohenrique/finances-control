@@ -53,6 +53,13 @@ class UserEarningController {
     }
   }
 
+  /**
+   * verify alternatives:
+   * (1) manual insert into many to many table
+   * (2) using hasMany and belongsTo relations
+   * https://github.com/sequelize/sequelize/issues/3493
+   * However Sequelize still has poor support for non-nunique N:M relations so you might be better off simply working with multiple hasMany/belongsTo
+   */
   static async store(req, res, next) {
     try {
       const user = await User.findOne({ where: { id: req.user.id } });
