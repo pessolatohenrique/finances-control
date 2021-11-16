@@ -1,8 +1,9 @@
+const db = require("../models");
 const { Op } = require("sequelize");
 const moment = require("moment");
 const User = require("../models").User;
 const Earning = require("../models").Earning;
-const { NotFoundError } = require("../utils/Errors");
+const { NotFoundError, BadRequestError } = require("../utils/Errors");
 
 class UserEarningController {
   static async index(req, res, next) {
@@ -62,18 +63,29 @@ class UserEarningController {
    */
   static async store(req, res, next) {
     try {
-      const user = await User.findOne({ where: { id: req.user.id } });
-
       for (const earning of req.body.earnings) {
         const [createdEarning] = await Earning.findOrCreate({
           where: { name: earning.name, isPublic: earning.isPublic },
         });
-        await user.addEarning(createdEarning, {
-          through: {
-            value: earning.value,
-            transaction_date: earning.transaction_date,
-          },
-        });
+
+        if (!earning.value || !earning.transaction_date)
+          throw new BadRequestError();
+
+        await db.sequelize.query(
+          `INSERT INTO finance_control.user_earning 
+          (userId, earningId, value, transaction_date, createdAt, updatedAt) VALUES 
+          (?, ?, ?, ?, ?, ?);`,
+          {
+            replacements: [
+              req.user.id,
+              createdEarning.id,
+              earning.value,
+              earning.transaction_date,
+              new Date(),
+              new Date(),
+            ],
+          }
+        );
       }
 
       const result = await User.findOne({

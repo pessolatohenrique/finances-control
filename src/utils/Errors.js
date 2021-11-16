@@ -51,9 +51,21 @@ class InvalidPasswordKey extends CommonError {
   }
 }
 
+/**
+ * represents bad request error, like required fields
+ */
+class BadRequestError extends CommonError {
+  constructor() {
+    super("Bad Request");
+    this.name = "BadRequestError";
+    this.status = 404;
+  }
+}
+
 module.exports = {
   UnauthorizedError,
   NotFoundError,
   ForbiddenError,
   InvalidPasswordKey,
+  BadRequestError,
 };
