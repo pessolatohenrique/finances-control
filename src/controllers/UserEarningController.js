@@ -78,7 +78,7 @@ class UserEarningController {
           {
             replacements: [
               req.user.id,
-              createdEarning.id,
+              await createdEarning.id,
               earning.value,
               earning.transaction_date,
               new Date(),
