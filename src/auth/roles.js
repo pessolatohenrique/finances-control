@@ -17,7 +17,10 @@ ac.grant("user")
   .readAny("user_earning")
   .createAny("user_earning")
   .readAny("user_earning")
-  .updateAny("user_earning");
+  .updateAny("user_earning")
+  .readAny("expense")
+  .createAny("expense")
+  .updateAny("expense");
 
 ac.grant("admin")
   .extend("user")

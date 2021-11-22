@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Expense.init(
     {
-      name: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: { notEmpty: true },
+      },
       isPublic: DataTypes.BOOLEAN,
     },
     {
