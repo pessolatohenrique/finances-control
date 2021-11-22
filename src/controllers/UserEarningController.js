@@ -3,6 +3,7 @@ const { Op } = require("sequelize");
 const moment = require("moment");
 const User = require("../models").User;
 const Earning = require("../models").Earning;
+const UserEarning = require("../models").UserEarning;
 const { NotFoundError, BadRequestError } = require("../utils/Errors");
 
 class UserEarningController {
@@ -95,6 +96,30 @@ class UserEarningController {
 
       return res.status(200).json(result);
     } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async update(req, res, next) {
+    try {
+      const { earning_id } = req.params;
+      const updated = await UserEarning.update(
+        {
+          value: req.body.value,
+          transaction_date: req.body.transaction_date,
+        },
+        { where: { userId: req.user.id, earningId: earning_id } }
+      );
+
+      if (updated) {
+        const result = await UserEarning.findOne({
+          where: { userId: req.user.id, earningId: earning_id },
+        });
+        if (!result) throw new NotFoundError();
+        return res.status(200).json(result);
+      }
+    } catch (error) {
+      console.log("ERROR!!", error);
       return next(error);
     }
   }

@@ -142,14 +142,13 @@ describe("User Earning CRUD", () => {
     expect(response.body).toHaveProperty("name", "Earning Updated");
   });
 
-  // it("should update when earning exists", async () => {
-  //   const response = await request(app)
-  //     .put("/user_earning/1")
-  //     .set("Authorization", `Bearer ${token}`)
-  //     .send({ value: 3000, transaction_date: "2021-11-10" });
+  it("should update when earning exists", async () => {
+    const response = await request(app)
+      .put("/user_earning/1")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ value: 3000, transaction_date: "2021-11-10" });
 
-  //   expect(response.status).toBe(200);
-  //   expect(response.body).toHaveProperty("value", 3000);
-  //   expect(response.body).toHaveProperty("transaction_date", "2021-11-10");
-  // });
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("value", 3000);
+  });
 });

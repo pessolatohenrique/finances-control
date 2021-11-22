@@ -11,9 +11,7 @@ router
 
 router
   .route("/user_earning/:earning_id")
-  .get([middlewares.bearer, middlewares.rbac], UserEarningController.show);
-// router.route("/recipe_category/:id");
-//   .get([middlewares.bearer, middlewares.rbac], CategoryController.show)
-//   .put([middlewares.bearer, middlewares.rbac], CategoryController.update);
+  .get([middlewares.bearer, middlewares.rbac], UserEarningController.show)
+  .put([middlewares.bearer, middlewares.rbac], UserEarningController.update);
 
 module.exports = router;
