@@ -2,11 +2,11 @@ const db = require("../models");
 const { Op } = require("sequelize");
 const moment = require("moment");
 const User = require("../models").User;
-const Earning = require("../models").Earning;
-const UserEarning = require("../models").UserEarning;
+const Expense = require("../models").Expense;
+const UserExpense = require("../models").UserExpense;
 const { NotFoundError, BadRequestError } = require("../utils/Errors");
 
-class UserEarningController {
+class UserExpenseController {
   static async index(req, res, next) {
     try {
       const { month } = req.query;
@@ -15,7 +15,7 @@ class UserEarningController {
       if (month) {
         whereCondition = {
           ...whereCondition,
-          "$Earnings.UserEarning.transaction_date$": {
+          "$Expenses.UserExpense.transaction_date$": {
             [Op.between]: [
               moment().format(`YYYY-${month}-01`),
               moment().format(`YYYY-${month}-31`),
@@ -26,7 +26,7 @@ class UserEarningController {
 
       const result = await User.findOne({
         where: whereCondition,
-        include: Earning,
+        include: Expense,
       });
 
       return res.status(200).json(result);
@@ -37,11 +37,11 @@ class UserEarningController {
 
   static async show(req, res, next) {
     try {
-      const { earning_id } = req.params;
-      const result = await Earning.findOne({
+      const { expense_id } = req.params;
+      const result = await Expense.findOne({
         where: {
           "$Users.id$": req.user.id,
-          id: earning_id,
+          id: expense_id,
         },
         include: User,
       });
@@ -50,7 +50,6 @@ class UserEarningController {
 
       return res.status(200).json(result);
     } catch (error) {
-      console.log("error", error);
       return next(error);
     }
   }
@@ -64,24 +63,24 @@ class UserEarningController {
    */
   static async store(req, res, next) {
     try {
-      for (const earning of req.body.earnings) {
-        const [createdEarning] = await Earning.findOrCreate({
-          where: { name: earning.name, isPublic: earning.isPublic },
+      for (const expense of req.body.expenses) {
+        const [createdExpense] = await Expense.findOrCreate({
+          where: { name: expense.name, isPublic: expense.isPublic },
         });
 
-        if (!earning.value || !earning.transaction_date)
+        if (!expense.value || !expense.transaction_date)
           throw new BadRequestError();
 
         await db.sequelize.query(
-          `INSERT INTO user_earning 
-          (userId, earningId, value, transaction_date, createdAt, updatedAt) VALUES 
+          `INSERT INTO user_expense 
+          (userId, expenseId, value, transaction_date, createdAt, updatedAt) VALUES 
           (?, ?, ?, ?, ?, ?);`,
           {
             replacements: [
               await req.user.id,
-              await createdEarning.id,
-              earning.value,
-              earning.transaction_date,
+              await createdExpense.id,
+              expense.value,
+              expense.transaction_date,
               new Date(),
               new Date(),
             ],
@@ -91,30 +90,30 @@ class UserEarningController {
 
       const result = await User.findOne({
         where: { id: req.user.id },
-        include: { model: Earning },
+        include: { model: Expense },
       });
 
       return res.status(200).json(result);
     } catch (error) {
-      console.log("ERRORR!!", error);
+      console.log("ERROR STORE", error);
       return next(error);
     }
   }
 
   static async update(req, res, next) {
     try {
-      const { earning_id } = req.params;
-      const updated = await UserEarning.update(
+      const { expense_id } = req.params;
+      const updated = await UserExpense.update(
         {
           value: req.body.value,
           transaction_date: req.body.transaction_date,
         },
-        { where: { userId: req.user.id, earningId: earning_id } }
+        { where: { userId: req.user.id, expenseId: expense_id } }
       );
 
       if (updated) {
-        const result = await UserEarning.findOne({
-          where: { userId: req.user.id, earningId: earning_id },
+        const result = await UserExpense.findOne({
+          where: { userId: req.user.id, expenseId: expense_id },
         });
         if (!result) throw new NotFoundError();
         return res.status(200).json(result);
@@ -126,4 +125,4 @@ class UserEarningController {
   }
 }
 
-module.exports = UserEarningController;
+module.exports = UserExpenseController;

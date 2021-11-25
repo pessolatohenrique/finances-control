@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         through: models.UserEarning,
         foreignKey: "userId",
       });
+
+      User.belongsToMany(models.Expense, {
+        through: models.UserExpense,
+        foreignKey: "userId",
+      });
     }
   }
   User.init(
