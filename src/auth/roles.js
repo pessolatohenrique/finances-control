@@ -24,7 +24,8 @@ ac.grant("user")
   .readAny("user_expense")
   .createAny("user_expense")
   .readAny("user_expense")
-  .updateAny("user_expense");
+  .updateAny("user_expense")
+  .readAny("budget");
 
 ac.grant("admin")
   .extend("user")

@@ -7,6 +7,7 @@ const earningRoutes = require("./earning");
 const userEarningRoutes = require("./user_earning");
 const expenseRoutes = require("./expense");
 const userExpenseRoutes = require("./user_expense");
+const budgetRoutes = require("./budget");
 
 module.exports = (app) => {
   app.use(bodyParser.json({ extended: true }));
@@ -18,4 +19,5 @@ module.exports = (app) => {
   app.use(userEarningRoutes);
   app.use(expenseRoutes);
   app.use(userExpenseRoutes);
+  app.use(budgetRoutes);
 };
