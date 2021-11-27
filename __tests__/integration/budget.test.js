@@ -18,6 +18,8 @@ describe("Budget Calculation", () => {
     expect(response.status).toBe(200);
     expect(response.body.sum_earning).toBe(4150);
     expect(response.body.sum_expense).toBe(550);
+    expect(response.body.Earnings.length).toBeGreaterThan(0);
+    expect(response.body.Expenses.length).toBeGreaterThan(0);
   });
 
   it("should summarize budget when there are no records", async () => {
@@ -28,5 +30,7 @@ describe("Budget Calculation", () => {
     expect(response.status).toBe(200);
     expect(response.body.sum_earning).toBe(0);
     expect(response.body.sum_expense).toBe(0);
+    expect(response.body.Earnings.length).toBe(0);
+    expect(response.body.Expenses.length).toBe(0);
   });
 });

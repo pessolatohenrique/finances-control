@@ -34,13 +34,26 @@ class BudgetController {
         include: [Expense],
       });
 
+      const earnings = await User.findOne({
+        where: where_condition_earning,
+        include: Earning,
+      });
+
+      const expenses = await User.findOne({
+        where: where_condition_expense,
+        include: Expense,
+      });
+
       const result = {
         sum_earning,
         sum_expense,
+        Earnings: (earnings && earnings.Earnings) || [],
+        Expenses: (expenses && expenses.Expenses) || [],
       };
 
       return res.status(200).json(result);
     } catch (error) {
+      console.log("eroo...", error);
       return next(error);
     }
   }
