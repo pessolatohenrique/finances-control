@@ -13,16 +13,30 @@ class BudgetController {
   static async index(req, res, next) {
     try {
       const { month } = req.query;
-      let whereCondition = await UserEarning.mountQuery(month, req.user);
+      const where_condition_earning = await UserEarning.mountQuery(
+        month,
+        req.user
+      );
+      const where_condition_expense = await UserExpense.mountQuery(
+        month,
+        req.user
+      );
 
       const sum_earning = await User.sum("Earnings.UserEarning.value", {
         attribute: "sum",
-        where: whereCondition,
+        where: where_condition_earning,
         include: [Earning],
+      });
+
+      const sum_expense = await User.sum("Expenses.UserExpense.value", {
+        attribute: "sum",
+        where: where_condition_expense,
+        include: [Expense],
       });
 
       const result = {
         sum_earning,
+        sum_expense,
       };
 
       return res.status(200).json(result);

@@ -1,5 +1,7 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, Op } = require("sequelize");
+const moment = require("moment");
+
 module.exports = (sequelize, DataTypes) => {
   class UserExpense extends Model {
     /**
@@ -9,6 +11,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+    }
+
+    static mountQuery(month, user) {
+      let whereCondition = { id: user.id };
+
+      if (month) {
+        // lógica na model, montando o where por month
+        whereCondition = {
+          ...whereCondition,
+          "$Expenses.UserExpense.transaction_date$": {
+            [Op.between]: [
+              moment().format(`YYYY-${month}-01`),
+              moment().format(`YYYY-${month}-31`),
+            ],
+          },
+        };
+      }
+
+      return whereCondition;
     }
   }
   UserExpense.init(
