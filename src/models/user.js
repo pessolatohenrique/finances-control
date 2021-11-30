@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         through: models.UserExpense,
         foreignKey: "userId",
       });
+
+      User.belongsTo(models.Recipe, {
+        foreignKey: "recipeId",
+      });
     }
   }
   User.init(

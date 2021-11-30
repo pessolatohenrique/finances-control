@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
         through: models.RecipeCategory,
         foreignKey: "recipeId",
       });
+
+      Recipe.hasMany(models.User, {
+        foreignKey: "recipeId",
+      });
     }
   }
   Recipe.init(

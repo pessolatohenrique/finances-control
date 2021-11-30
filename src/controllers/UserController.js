@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const model = require("../models").User;
+const Recipe = require("../models").Recipe;
 const tokens = require("../auth/tokens");
 const { ForgotPasswordEmail } = require("../utils/Email");
 const { NotFoundError, InvalidPasswordKey } = require("../utils/Errors");
@@ -91,7 +92,10 @@ class UserController {
   static async show(req, res, next) {
     try {
       const { id } = req.params;
-      const result = await model.findOne({ where: { id } });
+      const result = await model.findOne({
+        where: { id },
+        include: Recipe,
+      });
 
       if (!result) {
         throw new NotFoundError();
