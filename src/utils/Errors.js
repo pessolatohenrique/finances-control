@@ -58,7 +58,15 @@ class BadRequestError extends CommonError {
   constructor() {
     super("Bad Request");
     this.name = "BadRequestError";
-    this.status = 404;
+    this.status = 400;
+  }
+}
+
+class RecipeNotAssociatedError extends CommonError {
+  constructor() {
+    super("Recipe not associated with user");
+    this.name = "RecipeNotAssociatedError";
+    this.status = 400;
   }
 }
 
@@ -68,4 +76,5 @@ module.exports = {
   ForbiddenError,
   InvalidPasswordKey,
   BadRequestError,
+  RecipeNotAssociatedError,
 };

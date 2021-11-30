@@ -1,12 +1,13 @@
 const model = require("../models").Recipe;
-const category = require("../models").Category;
+const Category = require("../models").Category;
+const User = require("../models").User;
 const { NotFoundError } = require("../utils/Errors");
 
 class RecipeController {
   static async index(req, res, next) {
     try {
       const result = await model.findAll({
-        include: category,
+        include: Category,
       });
       return res.status(200).json(result);
     } catch (error) {
@@ -17,7 +18,7 @@ class RecipeController {
   static async show(req, res, next) {
     try {
       const { id } = req.params;
-      const result = await model.findOne({ where: { id }, include: category });
+      const result = await model.findOne({ where: { id }, include: Category });
 
       if (!result) throw new NotFoundError();
 
@@ -46,6 +47,25 @@ class RecipeController {
         if (!result) throw new NotFoundError();
         return res.status(200).json(result);
       }
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async associateUser(req, res, next) {
+    try {
+      const { id } = req.params;
+      const result = await model.findOne({ where: { id }, include: Category });
+      if (!result) throw new NotFoundError();
+
+      await User.update(
+        {
+          recipeId: id,
+        },
+        { where: { id: await req.user.id } }
+      );
+
+      return res.status(200).json(result);
     } catch (error) {
       return next(error);
     }

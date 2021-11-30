@@ -83,4 +83,21 @@ describe("Recipe CRUD", () => {
 
     expect(response.status).toBe(404);
   });
+
+  it("should associate user when recipe exists", async () => {
+    const response = await request(app)
+      .put("/recipe/associate/2")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("id", 2);
+  });
+
+  it("should associate user when recipe exists", async () => {
+    const response = await request(app)
+      .put("/recipe/associate/5911")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
 });

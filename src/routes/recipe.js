@@ -10,6 +10,10 @@ router
   .post([middlewares.bearer, middlewares.rbac], RecipeController.store);
 
 router
+  .route("/recipe/associate/:id")
+  .put([middlewares.bearer, middlewares.rbac], RecipeController.associateUser);
+
+router
   .route("/recipe/:id")
   .get([middlewares.bearer, middlewares.rbac], RecipeController.show)
   .put([middlewares.bearer, middlewares.rbac], RecipeController.update);

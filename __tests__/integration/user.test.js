@@ -149,4 +149,18 @@ describe("User CRUD", () => {
 
     expect(responseReset.status).toBe(401);
   });
+
+  it("should show recipe if associated with user", async () => {
+    await request(app)
+      .put("/recipe/associate/2")
+      .set("Authorization", `Bearer ${token}`);
+
+    const response = await request(app)
+      .get("/user/recipe")
+      .set("Authorization", `Bearer ${token}`)
+      .send();
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("name", "By Harv Eker");
+  });
 });

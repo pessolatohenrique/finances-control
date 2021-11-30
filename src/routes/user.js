@@ -17,6 +17,10 @@ router
   .get([middlewares.bearer, middlewares.rbac], UserController.index);
 
 router
+  .route("/user/recipe")
+  .get([middlewares.bearer], UserController.getRecipe);
+
+router
   .route("/user/:id")
   .get([middlewares.bearer, middlewares.rbac], UserController.show);
 

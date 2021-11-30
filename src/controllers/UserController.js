@@ -1,9 +1,14 @@
 const bcrypt = require("bcrypt");
 const model = require("../models").User;
 const Recipe = require("../models").Recipe;
+const Category = require("../models").Category;
 const tokens = require("../auth/tokens");
 const { ForgotPasswordEmail } = require("../utils/Email");
-const { NotFoundError, InvalidPasswordKey } = require("../utils/Errors");
+const {
+  NotFoundError,
+  InvalidPasswordKey,
+  RecipeNotAssociatedError,
+} = require("../utils/Errors");
 
 const ROUNDS_BCRYPT = 12;
 
@@ -134,6 +139,20 @@ class UserController {
       }
 
       const result = await model.create(req.body);
+      return res.status(200).json(result);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async getRecipe(req, res, next) {
+    try {
+      const result = await Recipe.findOne({
+        where: { id: req.user.recipeId },
+        include: Category,
+      });
+
+      if (!result) throw new RecipeNotAssociatedError();
       return res.status(200).json(result);
     } catch (error) {
       return next(error);
