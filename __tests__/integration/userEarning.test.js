@@ -135,11 +135,11 @@ describe("User Earning CRUD", () => {
 
   it("should found when earning exists", async () => {
     const response = await request(app)
-      .get("/user_earning/1")
+      .get("/user_earning/2")
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("name", "Earning Updated");
+    expect(response.body).toHaveProperty("name", "Renda extra");
   });
 
   it("should update when earning exists", async () => {
