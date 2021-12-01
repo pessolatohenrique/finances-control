@@ -3,6 +3,7 @@ const { Op } = require("sequelize");
 const moment = require("moment");
 const User = require("../models").User;
 const Expense = require("../models").Expense;
+const Category = require("../models").Category;
 const UserExpense = require("../models").UserExpense;
 const { NotFoundError, BadRequestError } = require("../utils/Errors");
 
@@ -26,7 +27,21 @@ class UserExpenseController {
 
       const result = await User.findOne({
         where: whereCondition,
-        include: Expense,
+        include: [
+          {
+            model: Expense,
+            include: [
+              {
+                model: UserExpense,
+                attributes: ["expenseId", "userId"],
+                as: "userExpenseCategory",
+                include: {
+                  model: Category,
+                },
+              },
+            ],
+          },
+        ],
       });
 
       return res.status(200).json(result);

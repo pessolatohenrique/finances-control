@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         through: models.UserExpense,
         foreignKey: "expenseId",
       });
+
+      Expense.belongsTo(models.UserExpense, {
+        foreignKey: "id",
+        as: "userExpenseCategory",
+      });
     }
   }
   Expense.init(
