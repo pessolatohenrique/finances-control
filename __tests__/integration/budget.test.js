@@ -32,5 +32,20 @@ describe("Budget Calculation", () => {
     expect(response.body.sum_expense).toBe(0);
     expect(response.body.Earnings.length).toBe(0);
     expect(response.body.Expenses.length).toBe(0);
+    expect(response.body.recipe_comparative.length).toBe(0);
+  });
+
+  it("should compare recipe, earnings and expenses when there are records", async () => {
+    const response = await request(app)
+      .get("/budget/summarize?month=9")
+      .set("Authorization", `Bearer ${token}`);
+
+    const recipe_comparative = response.body.recipe_comparative;
+
+    expect(recipe_comparative[0].name).toBe("Essencial");
+    expect(recipe_comparative[0].percentage).toBe(55);
+    expect(recipe_comparative[0].value_expected).toBe(2282.5);
+    expect(recipe_comparative[0].value_spent).toBe(550);
+    expect(recipe_comparative[0].percentage_spent).toBe(13.25);
   });
 });

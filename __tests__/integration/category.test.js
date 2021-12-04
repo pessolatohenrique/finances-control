@@ -66,7 +66,7 @@ describe("Category CRUD", () => {
 
   it("should update category with fields", async () => {
     const response = await request(app)
-      .put("/category/1")
+      .put("/category/2")
       .set("Authorization", `Bearer ${token}`)
       .send({ name: "category Updated" });
 

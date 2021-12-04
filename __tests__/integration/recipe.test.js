@@ -86,11 +86,11 @@ describe("Recipe CRUD", () => {
 
   it("should associate user when recipe exists", async () => {
     const response = await request(app)
-      .put("/recipe/associate/2")
+      .put("/recipe/associate/1")
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("id", 2);
+    expect(response.body).toHaveProperty("id", 1);
   });
 
   it("should associate user when recipe exists", async () => {
