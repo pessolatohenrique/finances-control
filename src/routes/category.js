@@ -14,4 +14,12 @@ router
   .get([middlewares.bearer, middlewares.rbac], CategoryController.show)
   .put([middlewares.bearer, middlewares.rbac], CategoryController.update);
 
+router
+  .route("/category/:id")
+  .delete([middlewares.bearer, middlewares.rbac], CategoryController.delete);
+
+router
+  .route("/category/:id/restore")
+  .put([middlewares.bearer, middlewares.rbac], CategoryController.restore);
+
 module.exports = router;

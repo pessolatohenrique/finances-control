@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
+      paranoid: true,
       modelName: "Category",
       tableName: "categories",
     }

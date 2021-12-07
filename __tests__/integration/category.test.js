@@ -82,4 +82,36 @@ describe("Category CRUD", () => {
 
     expect(response.status).toBe(404);
   });
+
+  it("should delete when category exists", async () => {
+    const response = await request(app)
+      .delete("/category/2")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not delete when category not exists", async () => {
+    const response = await request(app)
+      .delete("/category/5911")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
+
+  it("should restore when category exists", async () => {
+    const response = await request(app)
+      .put("/category/2/restore")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not restore when category not exists", async () => {
+    const response = await request(app)
+      .delete("/category/45311/restore")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
 });
