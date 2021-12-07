@@ -82,4 +82,36 @@ describe("Expense CRUD", () => {
 
     expect(response.status).toBe(404);
   });
+
+  it("should delete when expense exists", async () => {
+    const response = await request(app)
+      .delete("/expense/2")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not delete when expense not exists", async () => {
+    const response = await request(app)
+      .delete("/expense/5911")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
+
+  it("should restore when expense exists", async () => {
+    const response = await request(app)
+      .put("/expense/2/restore")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not restore when expense not exists", async () => {
+    const response = await request(app)
+      .delete("/expense/45311/restore")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
 });

@@ -14,4 +14,12 @@ router
   .get([middlewares.bearer, middlewares.rbac], ExpenseController.show)
   .put([middlewares.bearer, middlewares.rbac], ExpenseController.update);
 
+router
+  .route("/expense/:id")
+  .delete([middlewares.bearer, middlewares.rbac], ExpenseController.delete);
+
+router
+  .route("/expense/:id/restore")
+  .put([middlewares.bearer, middlewares.rbac], ExpenseController.restore);
+
 module.exports = router;
