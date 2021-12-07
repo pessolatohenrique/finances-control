@@ -100,4 +100,36 @@ describe("Recipe CRUD", () => {
 
     expect(response.status).toBe(404);
   });
+
+  it("should delete when recipe exists", async () => {
+    const response = await request(app)
+      .delete("/recipe/2")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not delete when recipe not exists", async () => {
+    const response = await request(app)
+      .delete("/recipe/5911")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
+
+  it("should restore when recipe exists", async () => {
+    const response = await request(app)
+      .put("/recipe/2/restore")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not restore when recipe not exists", async () => {
+    const response = await request(app)
+      .delete("/recipe/45311/restore")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
 });

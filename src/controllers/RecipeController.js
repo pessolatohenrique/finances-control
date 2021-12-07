@@ -52,6 +52,40 @@ class RecipeController {
     }
   }
 
+  static async delete(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const updatedDeleted = await model.destroy({
+        where: { id },
+      });
+
+      if (updatedDeleted) {
+        return res.status(200).json({ message: `${id} was deleted` });
+      }
+
+      throw new NotFoundError();
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async restore(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const restored = await model.restore({ where: { id } });
+
+      if (restored) {
+        return res.status(200).json({ message: `${id} was restored` });
+      }
+
+      throw new NotFoundError();
+    } catch (error) {
+      return next(error);
+    }
+  }
+
   static async associateUser(req, res, next) {
     try {
       const { id } = req.params;

@@ -18,4 +18,12 @@ router
   .get([middlewares.bearer, middlewares.rbac], RecipeController.show)
   .put([middlewares.bearer, middlewares.rbac], RecipeController.update);
 
+router
+  .route("/recipe/:id")
+  .delete([middlewares.bearer, middlewares.rbac], RecipeController.delete);
+
+router
+  .route("/recipe/:id/restore")
+  .put([middlewares.bearer, middlewares.rbac], RecipeController.restore);
+
 module.exports = router;
