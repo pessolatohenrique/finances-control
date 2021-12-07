@@ -82,4 +82,36 @@ describe("Earning CRUD", () => {
 
     expect(response.status).toBe(404);
   });
+
+  it("should delete when earning exists", async () => {
+    const response = await request(app)
+      .delete("/earning/2")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not delete when earning not exists", async () => {
+    const response = await request(app)
+      .delete("/earning/5911")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
+
+  it("should restore when earning exists", async () => {
+    const response = await request(app)
+      .put("/earning/2/restore")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not restore when earning not exists", async () => {
+    const response = await request(app)
+      .delete("/earning/45311/restore")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
 });

@@ -14,4 +14,12 @@ router
   .get([middlewares.bearer, middlewares.rbac], EarningController.show)
   .put([middlewares.bearer, middlewares.rbac], EarningController.update);
 
+router
+  .route("/earning/:id")
+  .delete([middlewares.bearer, middlewares.rbac], EarningController.delete);
+
+router
+  .route("/earning/:id/restore")
+  .put([middlewares.bearer, middlewares.rbac], EarningController.restore);
+
 module.exports = router;
