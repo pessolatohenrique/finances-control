@@ -29,6 +29,7 @@ ac.grant("user")
   .createAny("user_expense")
   .readAny("user_expense")
   .updateAny("user_expense")
+  .deleteAny("user_expense")
   .readAny("budget");
 
 ac.grant("admin")

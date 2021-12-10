@@ -151,4 +151,36 @@ describe("User Expense CRUD", () => {
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("value", 3000);
   });
+
+  it("should delete when user_expense exists", async () => {
+    const response = await request(app)
+      .delete("/user_expense/2")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not delete when user_expense not exists", async () => {
+    const response = await request(app)
+      .delete("/user_expense/5911")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
+
+  it("should restore when user_expense exists", async () => {
+    const response = await request(app)
+      .put("/user_expense/2/restore")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not restore when user_expense not exists", async () => {
+    const response = await request(app)
+      .delete("/user_expense/45311/restore")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
 });
