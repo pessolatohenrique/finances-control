@@ -52,16 +52,19 @@ class UserExpenseController {
 
   static async show(req, res, next) {
     try {
-      const { expense_id } = req.params;
+      const { id } = req.params;
+
+      const resultUserExpense = await UserExpense.findOne({ where: { id } });
+
+      if (!resultUserExpense) throw new NotFoundError();
+
       const result = await Expense.findOne({
         where: {
           "$Users.id$": req.user.id,
-          id: expense_id,
+          id: resultUserExpense.expenseId,
         },
         include: User,
       });
-
-      if (!result) throw new NotFoundError();
 
       return res.status(200).json(result);
     } catch (error) {
@@ -110,25 +113,24 @@ class UserExpenseController {
 
       return res.status(200).json(result);
     } catch (error) {
-      console.log("ERROR STORE", error);
       return next(error);
     }
   }
 
   static async update(req, res, next) {
     try {
-      const { expense_id } = req.params;
+      const { id } = req.params;
       const updated = await UserExpense.update(
         {
           value: req.body.value,
           transaction_date: req.body.transaction_date,
         },
-        { where: { userId: req.user.id, expenseId: expense_id } }
+        { where: { id } }
       );
 
       if (updated) {
         const result = await UserExpense.findOne({
-          where: { userId: req.user.id, expenseId: expense_id },
+          where: { id },
         });
         if (!result) throw new NotFoundError();
         return res.status(200).json(result);

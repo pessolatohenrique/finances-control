@@ -10,7 +10,7 @@ router
   .post([middlewares.bearer, middlewares.rbac], UserExpenseController.store);
 
 router
-  .route("/user_expense/:expense_id")
+  .route("/user_expense/:id")
   .get([middlewares.bearer, middlewares.rbac], UserExpenseController.show)
   .put([middlewares.bearer, middlewares.rbac], UserExpenseController.update);
 
