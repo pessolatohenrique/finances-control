@@ -37,11 +37,16 @@ class UserEarningController {
 
   static async show(req, res, next) {
     try {
-      const { earning_id } = req.params;
+      const { id } = req.params;
+
+      const resultUserEarning = await UserEarning.findOne({ where: { id } });
+
+      if (!resultUserEarning) throw new NotFoundError();
+
       const result = await Earning.findOne({
         where: {
           "$Users.id$": req.user.id,
-          id: earning_id,
+          id: resultUserEarning.earningId,
         },
         include: User,
       });
@@ -50,7 +55,6 @@ class UserEarningController {
 
       return res.status(200).json(result);
     } catch (error) {
-      console.log("error", error);
       return next(error);
     }
   }
@@ -103,24 +107,23 @@ class UserEarningController {
 
   static async update(req, res, next) {
     try {
-      const { earning_id } = req.params;
+      const { id } = req.params;
       const updated = await UserEarning.update(
         {
           value: req.body.value,
           transaction_date: req.body.transaction_date,
         },
-        { where: { userId: req.user.id, earningId: earning_id } }
+        { where: { id } }
       );
 
       if (updated) {
         const result = await UserEarning.findOne({
-          where: { userId: req.user.id, earningId: earning_id },
+          where: { id },
         });
         if (!result) throw new NotFoundError();
         return res.status(200).json(result);
       }
     } catch (error) {
-      console.log("ERROR!!", error);
       return next(error);
     }
   }

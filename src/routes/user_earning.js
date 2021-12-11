@@ -10,12 +10,9 @@ router
   .post([middlewares.bearer, middlewares.rbac], UserEarningController.store);
 
 router
-  .route("/user_earning/:earning_id")
-  .get([middlewares.bearer, middlewares.rbac], UserEarningController.show)
-  .put([middlewares.bearer, middlewares.rbac], UserEarningController.update);
-
-router
   .route("/user_earning/:id")
+  .get([middlewares.bearer, middlewares.rbac], UserEarningController.show)
+  .put([middlewares.bearer, middlewares.rbac], UserEarningController.update)
   .delete([middlewares.bearer, middlewares.rbac], UserEarningController.delete);
 
 router
