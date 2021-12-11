@@ -1,7 +1,7 @@
 const model = require("../models").Recipe;
 const Category = require("../models").Category;
 const User = require("../models").User;
-const { NotFoundError } = require("../utils/Errors");
+const { NotFoundError, RecipeNotAssociatedError } = require("../utils/Errors");
 
 class RecipeController {
   static async index(req, res, next) {
@@ -100,6 +100,29 @@ class RecipeController {
       );
 
       return res.status(200).json(result);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async disassociateUser(req, res, next) {
+    try {
+      const result = await User.findOne({
+        where: {
+          id: await req.user.id,
+        },
+      });
+
+      if (!result.recipeId) throw new RecipeNotAssociatedError();
+
+      await User.update(
+        {
+          recipeId: null,
+        },
+        { where: { id: await req.user.id } }
+      );
+
+      return res.status(200).json({ message: "recipe disassociated" });
     } catch (error) {
       return next(error);
     }

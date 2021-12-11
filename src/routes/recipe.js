@@ -14,6 +14,13 @@ router
   .put([middlewares.bearer, middlewares.rbac], RecipeController.associateUser);
 
 router
+  .route("/recipe/disassociate")
+  .put(
+    [middlewares.bearer, middlewares.rbac],
+    RecipeController.disassociateUser
+  );
+
+router
   .route("/recipe/:id")
   .get([middlewares.bearer, middlewares.rbac], RecipeController.show)
   .put([middlewares.bearer, middlewares.rbac], RecipeController.update);

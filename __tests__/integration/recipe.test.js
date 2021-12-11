@@ -93,7 +93,27 @@ describe("Recipe CRUD", () => {
     expect(response.body).toHaveProperty("id", 1);
   });
 
-  it("should associate user when recipe exists", async () => {
+  it("should disassociate when recipe exists", async () => {
+    const responseWhenExists = await request(app)
+      .put("/recipe/disassociate")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(responseWhenExists.status).toBe(200);
+
+    const responseWhenNotExists = await request(app)
+      .put("/recipe/disassociate")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(responseWhenNotExists.status).toBe(400);
+
+    const responseFinal = await request(app)
+      .put("/recipe/associate/1")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(responseFinal.status).toBe(200);
+  });
+
+  it("should not associate user when recipe not exists", async () => {
     const response = await request(app)
       .put("/recipe/associate/5911")
       .set("Authorization", `Bearer ${token}`);
