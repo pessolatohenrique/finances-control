@@ -124,6 +124,40 @@ class UserEarningController {
       return next(error);
     }
   }
+
+  static async delete(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const updatedDeleted = await UserEarning.destroy({
+        where: { id },
+      });
+
+      if (updatedDeleted) {
+        return res.status(200).json({ message: `${id} was deleted` });
+      }
+
+      throw new NotFoundError();
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async restore(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const restored = await UserEarning.restore({ where: { id } });
+
+      if (restored) {
+        return res.status(200).json({ message: `${id} was restored` });
+      }
+
+      throw new NotFoundError();
+    } catch (error) {
+      return next(error);
+    }
+  }
 }
 
 module.exports = UserEarningController;

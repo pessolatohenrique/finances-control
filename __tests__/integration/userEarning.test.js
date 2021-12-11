@@ -151,4 +151,36 @@ describe("User Earning CRUD", () => {
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("value", 3000);
   });
+
+  it("should delete when user_earning exists", async () => {
+    const response = await request(app)
+      .delete("/user_earning/2")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not delete when user_earning not exists", async () => {
+    const response = await request(app)
+      .delete("/user_earning/5911")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
+
+  it("should restore when user_earning exists", async () => {
+    const response = await request(app)
+      .put("/user_earning/2/restore")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should not restore when user_earning not exists", async () => {
+    const response = await request(app)
+      .delete("/user_earning/45311/restore")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
 });
