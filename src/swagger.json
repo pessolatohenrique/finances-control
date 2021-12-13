@@ -104,6 +104,210 @@
         }
       }
     },
+    "/category": {
+      "get": {
+        "tags": ["Categories"],
+        "description": "Index of Category",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Categories"],
+        "description": "Store a new Category",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/category/{id}": {
+      "get": {
+        "tags": ["Categories"],
+        "description": "Get details of a Category",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the category",
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Categories"],
+        "description": "Update a specific category",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Categories"],
+        "description": "Delete a specific category",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/category/{id}/restore": {
+      "put": {
+        "tags": ["Categories"],
+        "description": "Restore a specific category, that was deleted",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
     "/earning": {
       "get": {
         "tags": ["Earnings"],
@@ -146,7 +350,6 @@
           {
             "name": "Parameters",
             "in": "body",
-            "description": "Full name of the author",
             "schema": {
               "$ref": "#/definitions/Earning"
             }
@@ -219,9 +422,8 @@
             }
           },
           {
-            "name": "name",
+            "name": "Parameters",
             "in": "body",
-            "description": "Full name of the earning",
             "schema": {
               "$ref": "#/definitions/Earning"
             }
@@ -309,26 +511,975 @@
           }
         }
       }
-    }
-  },
-  "definitions": {
-    "User": {
-      "required": ["username", "password"],
-      "properties": {
-        "username": {
-          "type": "string",
-          "uniqueItems": true
-        },
-        "password": {
-          "type": "string"
+    },
+    "/expense": {
+      "get": {
+        "tags": ["Expenses"],
+        "description": "Index of Expense",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Expenses"],
+        "description": "Store a new Expense",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Expense"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
         }
       }
     },
-    "RefreshToken": {
-      "required": ["refreshToken"],
+    "/expense/{id}": {
+      "get": {
+        "tags": ["Expenses"],
+        "description": "Get details of a Expense",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the expense",
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Expenses"],
+        "description": "Update a specific expense",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Expense"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Expenses"],
+        "description": "Delete a specific expense",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/expense/{id}/restore": {
+      "put": {
+        "tags": ["Expenses"],
+        "description": "Restore a specific expense, that was deleted",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/recipe": {
+      "get": {
+        "tags": ["Recipes"],
+        "description": "Index of Recipe",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Recipes"],
+        "description": "Store a new Recipe",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Recipe"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/recipe/{id}": {
+      "get": {
+        "tags": ["Recipes"],
+        "description": "Get details of a Recipe",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the recipe",
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Recipes"],
+        "description": "Update a specific recipe",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Recipe"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Recipes"],
+        "description": "Delete a specific recipe",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/recipe/{id}/restore": {
+      "put": {
+        "tags": ["Recipes"],
+        "description": "Restore a specific recipe, that was deleted",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/recipe_category": {
+      "post": {
+        "tags": ["Recipe Categories"],
+        "description": "Store a new user expense",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ArrayOfCategories"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/user_earning": {
+      "get": {
+        "tags": ["User Earnings"],
+        "description": "Index of User Earnings by Month",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "required": true,
+            "description": "Month to compare",
+            "type": "integer"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["User Earnings"],
+        "description": "Store a new user earning",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ArrayOfEarnings"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/user_earning/{id}": {
+      "get": {
+        "tags": ["User Earnings"],
+        "description": "Get details of a user earning",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the user earning",
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["User Earnings"],
+        "description": "Update a specific user earning",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/UserEarning"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["User Earnings"],
+        "description": "Delete a specific user earning",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/user_earning/{id}/restore": {
+      "put": {
+        "tags": ["User Earnings"],
+        "description": "Restore a specific user earning, that was deleted",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/user_expense": {
+      "get": {
+        "tags": ["User Expenses"],
+        "description": "Index of User Expenses by Month",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "required": true,
+            "description": "Month to compare",
+            "type": "integer"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["User Expenses"],
+        "description": "Store a new user expense",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ArrayOfEarnings"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/user_expense/{id}": {
+      "get": {
+        "tags": ["User Expenses"],
+        "description": "Get details of a user expense",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the user expense",
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["User Expenses"],
+        "description": "Update a specific user expense",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/UserEarning"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["User Expenses"],
+        "description": "Delete a specific user expense",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/user_expense/{id}/restore": {
+      "put": {
+        "tags": ["User Expenses"],
+        "description": "Restore a specific user expense, that was deleted",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ArrayOfCategories": {
+      "required": ["name", "categories"],
       "properties": {
-        "refreshToken": {
-          "type": "string"
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "categories": {
+          "name": "categories",
+          "type": "array",
+          "items": {
+            "minItems": 1,
+            "type": "object",
+            "required": ["name", "percentage"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "percentage": {
+                "type": "number",
+                "minimum": 1,
+                "format": "float"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ArrayOfEarnings": {
+      "required": ["earnings"],
+      "properties": {
+        "earnings": {
+          "name": "earnings",
+          "type": "array",
+          "items": {
+            "minItems": 1,
+            "type": "object",
+            "required": ["name", "value", "transaction_date"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "isPublic": {
+                "type": "boolean",
+                "uniqueItems": false
+              },
+              "value": {
+                "type": "number",
+                "minimum": 1,
+                "format": "float"
+              },
+              "transaction_date": {
+                "type": "string",
+                "format": "date"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ArrayOfExpenses": {
+      "required": ["expenses"],
+      "properties": {
+        "expenses": {
+          "name": "expenses",
+          "type": "array",
+          "items": {
+            "minItems": 1,
+            "type": "object",
+            "required": ["name", "value", "transaction_date"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "isPublic": {
+                "type": "boolean",
+                "uniqueItems": false
+              },
+              "value": {
+                "type": "number",
+                "minimum": 1,
+                "format": "float"
+              },
+              "transaction_date": {
+                "type": "string",
+                "format": "date"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Category": {
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "uniqueItems": true
         }
       }
     },
@@ -342,6 +1493,66 @@
         "isPublic": {
           "type": "boolean",
           "uniqueItems": false
+        }
+      }
+    },
+    "Expense": {
+      "required": ["name", "isPublic"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "isPublic": {
+          "type": "boolean",
+          "uniqueItems": false
+        }
+      }
+    },
+    "User": {
+      "required": ["username", "password"],
+      "properties": {
+        "username": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "UserEarning": {
+      "required": ["value", "transaction_date"],
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 1,
+          "format": "float"
+        },
+        "transaction_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "Recipe": {
+      "required": ["name", "isPublic"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "isPublic": {
+          "type": "boolean",
+          "uniqueItems": false
+        }
+      }
+    },
+    "RefreshToken": {
+      "required": ["refreshToken"],
+      "properties": {
+        "refreshToken": {
+          "type": "string"
         }
       }
     }
