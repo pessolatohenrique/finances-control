@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Template Sequelize",
-    "description": "O objetivo deste projeto é fornecer um template com recursos comuns à todos os projetos em Node.js e Sequelize (Framework ORM). Entre os recursos estão: recursos de variáveis de ambiente, segurança com access token e refresh tokens, RBAC, ORM, tratamento de erros, recuperação de senha;",
+    "title": "Finance Control",
+    "description": "O objetivo deste projeto é realizar o controle de finanças pessoais, por meio de receitas, gastos e investimentos realizados",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
@@ -66,10 +66,10 @@
         }
       }
     },
-    "/book": {
+    "/budget/summarize": {
       "get": {
-        "tags": ["Books"],
-        "description": "Index of Books",
+        "tags": ["Budget"],
+        "description": "Comparative of Earnings, Expenses and Recipe",
         "parameters": [
           {
             "name": "Authorization",
@@ -80,17 +80,20 @@
             }
           },
           {
-            "name": "search",
+            "name": "month",
             "in": "query",
             "required": true,
-            "description": "Title of book",
-            "type": "string"
+            "description": "Month to compare",
+            "type": "integer"
           }
         ],
         "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad request"
           },
           "401": {
             "description": "Unauthorized"
@@ -101,104 +104,10 @@
         }
       }
     },
-    "/book/sumPagesByAuthor": {
+    "/earning": {
       "get": {
-        "tags": ["Books"],
-        "description": "Group pages by author",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Use 'Bearer' prefix",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        ],
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Error"
-          }
-        }
-      }
-    },
-    "/book/countByAuthor": {
-      "get": {
-        "tags": ["Books"],
-        "description": "Count total books by author",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Use 'Bearer' prefix",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        ],
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Error"
-          }
-        }
-      }
-    },
-    "/book/{id}": {
-      "get": {
-        "tags": ["Books"],
-        "description": "Get details of a book",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Use 'Bearer' prefix",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "ID of the book",
-            "type": "string"
-          }
-        ],
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not found"
-          },
-          "500": {
-            "description": "Internal Error"
-          }
-        }
-      }
-    },
-    "/author": {
-      "get": {
-        "tags": ["Authors"],
-        "description": "Index of Authors",
+        "tags": ["Earnings"],
+        "description": "Index of Earning",
         "parameters": [
           {
             "name": "Authorization",
@@ -223,8 +132,8 @@
         }
       },
       "post": {
-        "tags": ["Authors"],
-        "description": "Store a new author",
+        "tags": ["Earnings"],
+        "description": "Store a new earning",
         "parameters": [
           {
             "name": "Authorization",
@@ -235,11 +144,11 @@
             }
           },
           {
-            "name": "name",
+            "name": "Parameters",
             "in": "body",
             "description": "Full name of the author",
             "schema": {
-              "$ref": "#/definitions/Author"
+              "$ref": "#/definitions/Earning"
             }
           }
         ],
@@ -260,10 +169,10 @@
         }
       }
     },
-    "/author/{id}": {
+    "/earning/{id}": {
       "get": {
-        "tags": ["Authors"],
-        "description": "Get details of ma author",
+        "tags": ["Earnings"],
+        "description": "Get details of a earning",
         "parameters": [
           {
             "name": "Authorization",
@@ -277,7 +186,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "ID of the author",
+            "description": "ID of the earning",
             "type": "string"
           }
         ],
@@ -298,8 +207,8 @@
         }
       },
       "put": {
-        "tags": ["Authors"],
-        "description": "Update a specific author",
+        "tags": ["Earnings"],
+        "description": "Update a specific earning",
         "parameters": [
           {
             "name": "Authorization",
@@ -312,9 +221,9 @@
           {
             "name": "name",
             "in": "body",
-            "description": "Full name of the author",
+            "description": "Full name of the earning",
             "schema": {
-              "$ref": "#/definitions/Author"
+              "$ref": "#/definitions/Earning"
             }
           }
         ],
@@ -338,8 +247,8 @@
         }
       },
       "delete": {
-        "tags": ["Authors"],
-        "description": "Delete a specific author",
+        "tags": ["Earnings"],
+        "description": "Delete a specific earning",
         "parameters": [
           {
             "name": "Authorization",
@@ -370,10 +279,10 @@
         }
       }
     },
-    "/author/{id}/restore": {
-      "get": {
-        "tags": ["Authors"],
-        "description": "Restore a specific author, that was deleted",
+    "/earning/{id}/restore": {
+      "put": {
+        "tags": ["Earnings"],
+        "description": "Restore a specific earning, that was deleted",
         "parameters": [
           {
             "name": "Authorization",
@@ -382,44 +291,6 @@
             "schema": {
               "$ref": "#/definitions/User"
             }
-          }
-        ],
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not found"
-          },
-          "500": {
-            "description": "Internal Error"
-          }
-        }
-      }
-    },
-    "/author/{id}/books": {
-      "get": {
-        "tags": ["Authors"],
-        "description": "Get the books of an author",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Use 'Bearer' prefix",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "ID of the author",
-            "type": "string"
           }
         ],
         "produces": ["application/json"],
@@ -440,7 +311,6 @@
       }
     }
   },
-
   "definitions": {
     "User": {
       "required": ["username", "password"],
@@ -462,27 +332,16 @@
         }
       }
     },
-    "Book": {
-      "required": ["name", "pages", "authorId"],
+    "Earning": {
+      "required": ["name", "isPublic"],
       "properties": {
         "name": {
           "type": "string",
           "uniqueItems": true
         },
-        "pages": {
-          "type": "integer"
-        },
-        "authorId": {
-          "type": "integer"
-        }
-      }
-    },
-    "Author": {
-      "required": ["name"],
-      "properties": {
-        "name": {
-          "type": "string",
-          "uniqueItems": true
+        "isPublic": {
+          "type": "boolean",
+          "uniqueItems": false
         }
       }
     }
