@@ -26,7 +26,7 @@
             "in": "body",
             "description": "Username and password to login",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Login"
             }
           }
         ],
@@ -62,6 +62,30 @@
           },
           "401": {
             "description": "Invalid refresh token"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Store a new user",
+        "parameters": [
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Error"
           }
         }
       }
@@ -1509,12 +1533,31 @@
         }
       }
     },
-    "User": {
+    "Login": {
       "required": ["username", "password"],
       "properties": {
         "username": {
           "type": "string",
           "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "required": ["username", "email", "role", "password"],
+      "properties": {
+        "username": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "role": {
+          "type": "string"
         },
         "password": {
           "type": "string"
