@@ -38,7 +38,7 @@ describe("User Expense CRUD", () => {
 
   it("should list user expenses in other months", async () => {
     const response = await request(app)
-      .get(`/user_expense?month=09`)
+      .get(`/user_expense?month=01`)
       .set("Authorization", `Bearer ${token}`);
 
     const firstResult = response.body.Expenses[0];
@@ -48,7 +48,7 @@ describe("User Expense CRUD", () => {
 
     expect(response.status).toBe(200);
     expect(response.body.Expenses.length).toBeGreaterThan(0);
-    expect(monthFirstResult).toBe("09");
+    expect(monthFirstResult).toBe("01");
   });
 
   it("should save UserExpense when expense is empty", async () => {

@@ -38,7 +38,7 @@ describe("User Earning CRUD", () => {
 
   it("should list user earnings in other months", async () => {
     const response = await request(app)
-      .get(`/user_earning?month=09`)
+      .get(`/user_earning?month=01`)
       .set("Authorization", `Bearer ${token}`);
 
     const firstResult = response.body.Earnings[0];
@@ -48,7 +48,7 @@ describe("User Earning CRUD", () => {
 
     expect(response.status).toBe(200);
     expect(response.body.Earnings.length).toBeGreaterThan(0);
-    expect(monthFirstResult).toBe("09");
+    expect(monthFirstResult).toBe("01");
   });
 
   it("should save userEarning when earning is empty", async () => {

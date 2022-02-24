@@ -12,7 +12,7 @@ describe("Budget Calculation", () => {
 
   it("should summarize budget when there are records", async () => {
     const response = await request(app)
-      .get("/budget/summarize?month=9")
+      .get("/budget/summarize?month=1")
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -37,7 +37,7 @@ describe("Budget Calculation", () => {
 
   it("should compare recipe, earnings and expenses when there are records", async () => {
     const response = await request(app)
-      .get("/budget/summarize?month=9")
+      .get("/budget/summarize?month=1")
       .set("Authorization", `Bearer ${token}`);
 
     const recipe_comparative = response.body.recipe_comparative;
