@@ -28,8 +28,6 @@ router
   .route("/user/:id")
   .put([middlewares.bearer, middlewares.rbac], UserController.update);
 
-router
-  .route("/user")
-  .post([middlewares.bearer, middlewares.rbac], UserController.store);
+router.route("/user").post([], UserController.store);
 
 module.exports = router;
