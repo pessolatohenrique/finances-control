@@ -14,13 +14,15 @@ const { NotFoundError, BadRequestError } = require("../utils/Errors");
 class BudgetController {
   static async index(req, res, next) {
     try {
-      const { month } = req.query;
+      const { month, year } = req.query;
       const where_condition_earning = await UserEarning.mountQuery(
         month,
+        year,
         req.user
       );
       const where_condition_expense = await UserExpense.mountQuery(
         month,
+        year,
         req.user
       );
 

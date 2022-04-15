@@ -109,6 +109,13 @@
             "required": true,
             "description": "Month to compare",
             "type": "integer"
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "description": "Year to compare",
+            "type": "integer"
           }
         ],
         "produces": ["application/json"],

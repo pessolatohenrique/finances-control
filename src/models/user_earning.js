@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
 
-    static mountQuery(month, user) {
+    static mountQuery(month, year, user) {
       let whereCondition = { id: user.id };
 
       if (month) {
@@ -22,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
           ...whereCondition,
           "$Earnings.UserEarning.transaction_date$": {
             [Op.between]: [
-              moment().format(`YYYY-${month}-01`),
-              moment().format(`YYYY-${month}-31`),
+              moment().format(`${year}-${month}-01`),
+              moment().format(`${year}-${month}-31`),
             ],
           },
         };

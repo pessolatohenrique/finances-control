@@ -6,7 +6,7 @@ const router = Router();
 
 router
   .route("/recipe")
-  .get([middlewares.bearer, middlewares.rbac], RecipeController.index)
+  .get([], RecipeController.index)
   .post([middlewares.bearer, middlewares.rbac], RecipeController.store);
 
 router
