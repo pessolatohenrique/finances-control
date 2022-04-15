@@ -108,6 +108,7 @@ describe("User Expense CRUD", () => {
         expenses: [
           {
             name: "Conta de luz",
+            categoryId: 1,
             isPublic: true,
             value: 350,
             transaction_date: "2021-11-09",
@@ -115,6 +116,7 @@ describe("User Expense CRUD", () => {
           {
             name: "Conta de água",
             isPublic: true,
+            categoryId: 1,
             value: 200,
             transaction_date: "2021-11-09",
           },

@@ -91,12 +91,13 @@ class UserExpenseController {
 
         await db.sequelize.query(
           `INSERT INTO user_expense 
-          (userId, expenseId, value, transaction_date, createdAt, updatedAt) VALUES 
-          (?, ?, ?, ?, ?, ?);`,
+          (userId, expenseId, categoryId, value, transaction_date, createdAt, updatedAt) VALUES 
+          (?, ?, ?, ?, ?, ?, ?);`,
           {
             replacements: [
               await req.user.id,
               await createdExpense.id,
+              expense.categoryId,
               expense.value,
               expense.transaction_date,
               new Date(),
@@ -113,6 +114,7 @@ class UserExpenseController {
 
       return res.status(200).json(result);
     } catch (error) {
+      console.log("ERRORRR", error);
       return next(error);
     }
   }
