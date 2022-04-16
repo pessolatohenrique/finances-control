@@ -10,20 +10,8 @@ const { NotFoundError, BadRequestError } = require("../utils/Errors");
 class UserExpenseController {
   static async index(req, res, next) {
     try {
-      const { month } = req.query;
-      let whereCondition = { id: req.user.id };
-
-      if (month) {
-        whereCondition = {
-          ...whereCondition,
-          "$Expenses.UserExpense.transaction_date$": {
-            [Op.between]: [
-              moment().format(`YYYY-${month}-01`),
-              moment().format(`YYYY-${month}-31`),
-            ],
-          },
-        };
-      }
+      const { month, year } = req.query;
+      let whereCondition = UserExpense.mountQuery(month, year, req.user);
 
       const result = await User.findOne({
         where: whereCondition,

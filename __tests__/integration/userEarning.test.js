@@ -22,8 +22,9 @@ describe("User Earning CRUD", () => {
 
   it("should list user earnings in current month", async () => {
     const currentMonth = moment().format("MM");
+    const currentYear = moment().format("YYYY");
     const response = await request(app)
-      .get(`/user_earning?month=${currentMonth}`)
+      .get(`/user_earning?month=${currentMonth}&year=${currentYear}`)
       .set("Authorization", `Bearer ${token}`);
 
     const firstResult = response.body.Earnings[0];
@@ -37,8 +38,10 @@ describe("User Earning CRUD", () => {
   });
 
   it("should list user earnings in other months", async () => {
+    const currentYear = moment().format("YYYY");
+
     const response = await request(app)
-      .get(`/user_earning?month=01`)
+      .get(`/user_earning?month=01&year=${currentYear}`)
       .set("Authorization", `Bearer ${token}`);
 
     const firstResult = response.body.Earnings[0];

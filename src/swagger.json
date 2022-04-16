@@ -1008,6 +1008,13 @@
             "required": true,
             "description": "Month to compare",
             "type": "integer"
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "description": "Year to compare",
+            "type": "integer"
           }
         ],
         "produces": ["application/json"],
@@ -1219,6 +1226,13 @@
             "required": true,
             "description": "Month to compare",
             "type": "integer"
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "description": "Year to compare",
+            "type": "integer"
           }
         ],
         "produces": ["application/json"],
@@ -1250,7 +1264,7 @@
             "name": "Parameters",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/ArrayOfEarnings"
+              "$ref": "#/definitions/ArrayOfExpenses"
             }
           }
         ],
@@ -1482,10 +1496,14 @@
           "items": {
             "minItems": 1,
             "type": "object",
-            "required": ["name", "value", "transaction_date"],
+            "required": ["name", "categoryId", "value", "transaction_date"],
             "properties": {
               "name": {
                 "type": "string"
+              },
+              "categoryId": {
+                "type": "number",
+                "minimum": 1
               },
               "isPublic": {
                 "type": "boolean",

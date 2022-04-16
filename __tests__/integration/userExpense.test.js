@@ -22,8 +22,9 @@ describe("User Expense CRUD", () => {
 
   it("should list user expenses in current month", async () => {
     const currentMonth = moment().format("MM");
+    const currentYear = moment().format("YYYY");
     const response = await request(app)
-      .get(`/user_expense?month=${currentMonth}`)
+      .get(`/user_expense?month=${currentMonth}&year=${currentYear}`)
       .set("Authorization", `Bearer ${token}`);
 
     const firstResult = response.body.Expenses[0];
@@ -37,8 +38,9 @@ describe("User Expense CRUD", () => {
   });
 
   it("should list user expenses in other months", async () => {
+    const currentYear = moment().format("YYYY");
     const response = await request(app)
-      .get(`/user_expense?month=01`)
+      .get(`/user_expense?month=01&year=${currentYear}`)
       .set("Authorization", `Bearer ${token}`);
 
     const firstResult = response.body.Expenses[0];
