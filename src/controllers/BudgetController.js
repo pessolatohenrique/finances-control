@@ -76,9 +76,12 @@ class BudgetController {
         expense_data
       );
 
+      const sum_percentage = Recipe.sumPercentageSpent(recipe_comparative);
+
       const result = {
         sum_earning,
         sum_expense,
+        sum_percentage,
         recipe_comparative,
         Earnings: (earnings && earnings.Earnings) || [],
         Expenses: (expenses && expenses.Expenses) || [],
@@ -86,7 +89,7 @@ class BudgetController {
 
       return res.status(200).json(result);
     } catch (error) {
-      console.log("eroo...", error);
+      console.log("errror", error);
       return next(error);
     }
   }

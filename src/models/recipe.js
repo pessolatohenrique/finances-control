@@ -75,6 +75,12 @@ module.exports = (sequelize, DataTypes) => {
         .reduce((prev, next) => prev + next);
     }
 
+    static sumPercentageSpent(recipe_comparative) {
+      return recipe_comparative
+        .map((item) => item.percentage_spent)
+        .reduce((prev, next) => prev + next, 0);
+    }
+
     static consolidateComparativeRecipe(recipe_comparative, sum_earning) {
       const categories = [
         ...new Set([...recipe_comparative].map((item) => item.category_id)),
