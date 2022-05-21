@@ -11,6 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      UserEarning.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
+
+      UserEarning.belongsTo(models.Earning, {
+        foreignKey: "earningId",
+      });
     }
 
     static mountQuery(month, year, user) {

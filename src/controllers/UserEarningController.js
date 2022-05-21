@@ -27,16 +27,9 @@ class UserEarningController {
     try {
       const { id } = req.params;
 
-      const resultUserEarning = await UserEarning.findOne({ where: { id } });
-
-      if (!resultUserEarning) throw new NotFoundError();
-
-      const result = await Earning.findOne({
-        where: {
-          "$Users.id$": req.user.id,
-          id: resultUserEarning.earningId,
-        },
-        include: User,
+      const result = await UserEarning.findOne({
+        where: { id },
+        include: [User, Earning],
       });
 
       if (!result) throw new NotFoundError();

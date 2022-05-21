@@ -142,7 +142,7 @@ describe("User Earning CRUD", () => {
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("name", "Renda extra");
+    expect(response.body).toHaveProperty("Earning.name", "Renda extra");
   });
 
   it("should update when earning exists", async () => {

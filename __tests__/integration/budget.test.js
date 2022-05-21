@@ -25,7 +25,7 @@ describe("Budget Calculation", () => {
 
   it("should summarize budget when there are no records", async () => {
     const response = await request(app)
-      .get(`/budget/summarize?month=5&year=${moment().format("YYYY")}`)
+      .get(`/budget/summarize?month=12&year=${moment().format("YYYY")}`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);
