@@ -43,6 +43,9 @@ describe("Budget Calculation", () => {
 
     const recipe_comparative = response.body.recipe_comparative;
 
+    console.log("Expenses", response.body.Expenses);
+    console.log("Recipe Comparative", recipe_comparative[0]);
+
     expect(recipe_comparative[0].name).toBe("Essencial");
     expect(recipe_comparative[0].percentage).toBe(55);
     expect(recipe_comparative[0].value_expected).toBe(2282.5);

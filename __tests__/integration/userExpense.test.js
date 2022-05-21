@@ -17,7 +17,7 @@ describe("User Expense CRUD", () => {
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);
-    expect(response.body.Expenses.length).toBeGreaterThan(0);
+    expect(response.body.length).toBeGreaterThan(0);
   });
 
   it("should list user expenses in current month", async () => {
@@ -27,13 +27,11 @@ describe("User Expense CRUD", () => {
       .get(`/user_expense?month=${currentMonth}&year=${currentYear}`)
       .set("Authorization", `Bearer ${token}`);
 
-    const firstResult = response.body.Expenses[0];
-    const monthFirstResult = moment(
-      firstResult.UserExpense.transaction_date
-    ).format("MM");
+    const firstResult = response.body[0];
+    const monthFirstResult = moment(firstResult.transaction_date).format("MM");
 
     expect(response.status).toBe(200);
-    expect(response.body.Expenses.length).toBeGreaterThan(0);
+    expect(response.body.length).toBeGreaterThan(0);
     expect(monthFirstResult).toBe(currentMonth);
   });
 
@@ -43,13 +41,11 @@ describe("User Expense CRUD", () => {
       .get(`/user_expense?month=01&year=${currentYear}`)
       .set("Authorization", `Bearer ${token}`);
 
-    const firstResult = response.body.Expenses[0];
-    const monthFirstResult = moment(
-      firstResult.UserExpense.transaction_date
-    ).format("MM");
+    const firstResult = response.body[0];
+    const monthFirstResult = moment(firstResult.transaction_date).format("MM");
 
     expect(response.status).toBe(200);
-    expect(response.body.Expenses.length).toBeGreaterThan(0);
+    expect(response.body.length).toBeGreaterThan(0);
     expect(monthFirstResult).toBe("01");
   });
 

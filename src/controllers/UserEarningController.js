@@ -12,9 +12,9 @@ class UserEarningController {
       const { month, year } = req.query;
       let whereCondition = UserEarning.mountQuery(month, year, req.user);
 
-      const result = await User.findOne({
+      const result = await UserEarning.findAll({
         where: whereCondition,
-        include: Earning,
+        include: [Earning, User],
       });
 
       return res.status(200).json(result);

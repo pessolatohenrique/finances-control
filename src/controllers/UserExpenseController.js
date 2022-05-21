@@ -7,29 +7,32 @@ const Category = require("../models").Category;
 const UserExpense = require("../models").UserExpense;
 const { NotFoundError, BadRequestError } = require("../utils/Errors");
 
+const includeExpense = [
+  User,
+  {
+    model: Expense,
+    include: [
+      {
+        model: UserExpense,
+        attributes: ["expenseId", "userId"],
+        as: "userExpenseCategory",
+        include: {
+          model: Category,
+        },
+      },
+    ],
+  },
+];
+
 class UserExpenseController {
   static async index(req, res, next) {
     try {
       const { month, year } = req.query;
       let whereCondition = UserExpense.mountQuery(month, year, req.user);
 
-      const result = await User.findOne({
+      const result = await UserExpense.findAll({
         where: whereCondition,
-        include: [
-          {
-            model: Expense,
-            include: [
-              {
-                model: UserExpense,
-                attributes: ["expenseId", "userId"],
-                as: "userExpenseCategory",
-                include: {
-                  model: Category,
-                },
-              },
-            ],
-          },
-        ],
+        include: includeExpense,
       });
 
       return res.status(200).json(result);

@@ -1,3 +1,4 @@
+const sequelize = require("sequelize");
 const db = require("../models");
 const { Op } = require("sequelize");
 const moment = require("moment");
@@ -10,6 +11,23 @@ const Category = require("../models").Category;
 const Recipe = require("../models").Recipe;
 
 const { NotFoundError, BadRequestError } = require("../utils/Errors");
+
+const includeExpense = [
+  User,
+  {
+    model: Expense,
+    include: [
+      {
+        model: UserExpense,
+        attributes: ["expenseId", "userId"],
+        as: "userExpenseCategory",
+        include: {
+          model: Category,
+        },
+      },
+    ],
+  },
+];
 
 class BudgetController {
   static async index(req, res, next) {
@@ -26,41 +44,33 @@ class BudgetController {
         req.user
       );
 
-      const sum_earning = await User.sum("Earnings.UserEarning.value", {
+      const sum_earning = await UserEarning.sum("value", {
         attribute: "sum",
         where: where_condition_earning,
-        include: [Earning],
       });
 
-      const sum_expense = await User.sum("Expenses.UserExpense.value", {
+      const sum_expense = await UserExpense.sum("value", {
         attribute: "sum",
         where: where_condition_expense,
-        include: [Expense],
       });
 
-      const earnings = await User.findOne({
+      const earnings = await UserEarning.findAll({
+        attributes: { include: ["id"] },
         where: where_condition_earning,
-        include: Earning,
+        include: [User, Earning],
       });
 
-      const expenses = await User.findOne({
+      let expenses = await UserExpense.findAll({
+        attributes: {
+          include: ["id"],
+        },
         where: where_condition_expense,
-        include: [
-          {
-            model: Expense,
-            include: [
-              {
-                model: UserExpense,
-                attributes: ["expenseId", "userId"],
-                as: "userExpenseCategory",
-                include: {
-                  model: Category,
-                },
-              },
-            ],
-          },
-        ],
+        include: includeExpense,
       });
+
+      expenses = [
+        ...new Map(expenses.map((item) => [item["id"], item])).values(),
+      ];
 
       const earning_data = { sum_earning, earnings };
       const expense_data = { sum_expense, expenses };
@@ -83,13 +93,12 @@ class BudgetController {
         sum_expense,
         sum_percentage,
         recipe_comparative,
-        Earnings: (earnings && earnings.Earnings) || [],
-        Expenses: (expenses && expenses.Expenses) || [],
+        Earnings: earnings || [],
+        Expenses: expenses || [],
       };
 
       return res.status(200).json(result);
     } catch (error) {
-      console.log("errror", error);
       return next(error);
     }
   }

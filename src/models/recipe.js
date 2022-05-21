@@ -29,11 +29,11 @@ module.exports = (sequelize, DataTypes) => {
       let recipe_comparative = [];
 
       recipe_comparative = [...expenses].map((item) => {
-        const category = item.userExpenseCategory.Category;
-        const category_name = category.name;
+        const category = item.Expense.userExpenseCategory;
+        const category_name = category.Category.name;
 
         const recipe_item = [...user_recipe.Categories].find((subitem) => {
-          return category.id === subitem.id;
+          return category.Category.id === subitem.id;
         });
 
         const percentage = recipe_item.RecipeCategory.percentage;
@@ -43,10 +43,10 @@ module.exports = (sequelize, DataTypes) => {
           percentage
         );
 
-        const value_expense = item.UserExpense.value;
+        const value_expense = item.value;
 
         return {
-          category_id: category.id,
+          category_id: category.Category.id,
           name: category_name,
           percentage,
           value_expected,
@@ -89,6 +89,8 @@ module.exports = (sequelize, DataTypes) => {
       const consolidated = [...categories].map((item) => {
         const expenses = this.filterExpensesCategory(recipe_comparative, item);
 
+        console.log("Expenses", expenses);
+
         const category_item = this.findRecipeComparative(
           recipe_comparative,
           item
@@ -114,10 +116,10 @@ module.exports = (sequelize, DataTypes) => {
       let recipe_comparative = [];
 
       if (!user_recipe) return recipe_comparative;
-      if (!expenses_data.expenses) return recipe_comparative;
+      if (!expenses_data) return recipe_comparative;
 
       recipe_comparative = this.mapComparativeRecipe(
-        expenses_data.expenses.Expenses,
+        expenses_data.expenses,
         earnings_data.sum_earning,
         user_recipe
       );
