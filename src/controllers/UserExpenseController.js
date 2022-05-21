@@ -42,17 +42,12 @@ class UserExpenseController {
     try {
       const { id } = req.params;
 
-      const resultUserExpense = await UserExpense.findOne({ where: { id } });
-
-      if (!resultUserExpense) throw new NotFoundError();
-
-      const result = await Expense.findOne({
-        where: {
-          "$Users.id$": req.user.id,
-          id: resultUserExpense.expenseId,
-        },
-        include: User,
+      const result = await UserExpense.findOne({
+        where: { id },
+        include: [User, Expense],
       });
+
+      if (!result) throw new NotFoundError();
 
       return res.status(200).json(result);
     } catch (error) {

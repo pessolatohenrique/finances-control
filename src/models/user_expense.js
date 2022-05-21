@@ -14,6 +14,14 @@ module.exports = (sequelize, DataTypes) => {
       UserExpense.belongsTo(models.Category, {
         foreignKey: "categoryId",
       });
+
+      UserExpense.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
+
+      UserExpense.belongsTo(models.Expense, {
+        foreignKey: "expenseId",
+      });
     }
 
     static mountQuery(month, year, user) {
