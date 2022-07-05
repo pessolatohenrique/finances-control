@@ -111,6 +111,7 @@ class UserExpenseController {
         {
           value: req.body.value,
           transaction_date: req.body.transaction_date,
+          categoryId: req.body.categoryId,
         },
         { where: { id } }
       );

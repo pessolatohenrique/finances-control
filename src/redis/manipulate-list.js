@@ -4,6 +4,7 @@ module.exports = (list) => {
   const setAsync = promisify(list.set).bind(list);
   const getAsync = promisify(list.get).bind(list);
   const delAsync = promisify(list.del).bind(list);
+  const rPushAsync = promisify(list.rpush).bind(list);
 
   return {
     async insert(key, value, expires) {
@@ -16,6 +17,12 @@ module.exports = (list) => {
     },
     async delete(key) {
       await delAsync(key);
+    },
+    async rpush(value) {
+      await rPushAsync([value, "l1"]);
+    },
+    async lrange(key) {
+      list.lrange(key, 0, -1);
     },
   };
 };
