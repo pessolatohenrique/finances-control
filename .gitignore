@@ -6,3 +6,4 @@ npm-debug.log
 .env.test
 .DS_Store
 coverage
+*.xls

@@ -8,4 +8,8 @@ router
   .route("/budget/summarize")
   .get([middlewares.bearer, middlewares.rbac], BudgetController.index);
 
+router
+  .route("/budget/export")
+  .get([middlewares.bearer, middlewares.rbac], BudgetController.export);
+
 module.exports = router;

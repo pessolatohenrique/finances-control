@@ -1,7 +1,3 @@
-const sequelize = require("sequelize");
-const db = require("../models");
-const { Op } = require("sequelize");
-const moment = require("moment");
 const User = require("../models").User;
 const Earning = require("../models").Earning;
 const Expense = require("../models").Expense;
@@ -9,8 +5,7 @@ const UserEarning = require("../models").UserEarning;
 const UserExpense = require("../models").UserExpense;
 const Category = require("../models").Category;
 const Recipe = require("../models").Recipe;
-
-const { NotFoundError, BadRequestError } = require("../utils/Errors");
+const ExcelGenerator = require("../utils/ExcelGenerator");
 
 const includeExpense = [
   User,
@@ -98,6 +93,48 @@ class BudgetController {
       };
 
       return res.status(200).json(result);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async export(req, res, next) {
+    try {
+      const { month, year } = req.query;
+      const where_condition_earning = await UserEarning.mountQuery(
+        month,
+        year,
+        req.user
+      );
+
+      const result_earning = await UserEarning.findAll({
+        attributes: { include: ["id"] },
+        where: where_condition_earning,
+        include: [User, Earning],
+      });
+
+      const where_condition_expense = await UserExpense.mountQuery(
+        month,
+        year,
+        req.user
+      );
+
+      let result_expense = await UserExpense.findAll({
+        attributes: { include: ["id"] },
+        where: where_condition_expense,
+        include: includeExpense,
+      });
+
+      result_expense = [
+        ...new Map(result_expense.map((item) => [item["id"], item])).values(),
+      ];
+
+      const budget_xlsx = await ExcelGenerator.generateBudget(
+        result_earning,
+        result_expense
+      );
+
+      return res.status(200).download(budget_xlsx);
     } catch (error) {
       return next(error);
     }
