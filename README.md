@@ -47,6 +47,13 @@ Para verificar os parâmetros permitidos em um comando, utilizar o "help". Por e
 
     npx sequelize-cli --help db:seed
 
+Caso queira utilizar as funcionalidades que dependam do Kafka, execute o seguinte comando, com o Kafka previamente instalado:
+
+```
+  ./bin/zookeeper-server-start.sh config/zookeeper.properties
+  ./bin/kafka-server-start.sh config/server.properties
+```
+
 ### Documentação por meio do Swagger
 
 Para visualizar os endpoints criados, acessar o caminho

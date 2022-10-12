@@ -3,6 +3,7 @@ const routes = require("./routes");
 const socket = require("./socket");
 const cors = require("cors");
 const CronWrapper = require("./cron");
+const { KafkaConnection } = require("./config");
 
 // necessary to load strategies
 require("./auth/strategies");
@@ -14,6 +15,7 @@ routes(app);
 global.io = socket(app, server);
 
 CronWrapper.initialize();
+KafkaConnection.configure();
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
