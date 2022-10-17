@@ -6,6 +6,7 @@ const UserExpense = require("../models").UserExpense;
 const Category = require("../models").Category;
 const Recipe = require("../models").Recipe;
 const ExcelGenerator = require("../utils/ExcelGenerator");
+const InvestimentConsumer = require("../consumers/InvestimentConsumer");
 
 const includeExpense = [
   User,
@@ -136,6 +137,16 @@ class BudgetController {
 
       return res.status(200).download(budget_xlsx);
     } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async readNewInvestiments(req, res, next) {
+    try {
+      InvestimentConsumer.readRecents();
+      return res.status(204);
+    } catch (error) {
+      console.log("controller", error);
       return next(error);
     }
   }

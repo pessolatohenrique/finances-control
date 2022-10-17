@@ -29,6 +29,8 @@ app.use((error, req, res, next) => {
     "AggregateError",
   ];
 
+  console.log("Errro!!!", error);
+
   if (badRequestErrors.includes(error.name)) {
     res.status(400).json(error);
     return next();

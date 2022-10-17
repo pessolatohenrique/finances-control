@@ -70,6 +70,14 @@ class RecipeNotAssociatedError extends CommonError {
   }
 }
 
+class KafkaNotConnected extends CommonError {
+  constructor() {
+    super("Kafka is not connected");
+    this.name = "KafkaNotConnected";
+    this.status = 504;
+  }
+}
+
 module.exports = {
   UnauthorizedError,
   NotFoundError,
@@ -77,4 +85,5 @@ module.exports = {
   InvalidPasswordKey,
   BadRequestError,
   RecipeNotAssociatedError,
+  KafkaNotConnected,
 };
