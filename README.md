@@ -54,6 +54,8 @@ Caso queira utilizar as funcionalidades que dependam do Kafka, execute o seguint
   ./bin/kafka-server-start.sh config/server.properties
 ```
 
+O projeto que realiza os métodos "produtores" (Producers) é o [Investiments Control](https://github.com/pessolatohenrique/investiments-control)
+
 ### Documentação por meio do Swagger
 
 Para visualizar os endpoints criados, acessar o caminho
