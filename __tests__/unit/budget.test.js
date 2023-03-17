@@ -1,5 +1,3 @@
-const { Sequelize } = require("sequelize");
-
 const UserEarning = require("../../src/models").UserEarning;
 const UserExpense = require("../../src/models").UserExpense;
 const Recipe = require("../../src/models").Recipe;
