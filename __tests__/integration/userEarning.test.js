@@ -36,10 +36,8 @@ describe("User Earning CRUD", () => {
   });
 
   it("should list user earnings in other months", async () => {
-    const currentYear = moment().format("YYYY");
-
     const response = await request(app)
-      .get(`/user_earning?month=01&year=${currentYear}`)
+      .get(`/user_earning?month=01&year=2022`)
       .set("Authorization", `Bearer ${token}`);
 
     const firstResult = response.body[0];

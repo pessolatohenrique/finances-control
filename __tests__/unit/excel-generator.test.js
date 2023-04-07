@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const ExcelGenerator = require("../../src/utils/ExcelGenerator");
 
-describe("generateBudget", () => {
+describe("BudgetGenerator utils", () => {
   const mockEarnings = [
     {
       Earning: {

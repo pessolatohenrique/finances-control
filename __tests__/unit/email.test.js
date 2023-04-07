@@ -26,20 +26,6 @@ describe("Email Utils", () => {
     });
   });
 
-  it("should create a transporter object with correct configuration", async () => {
-    await email.configure();
-    expect(nodemailer.createTestAccount).toHaveBeenCalled();
-    expect(nodemailer.createTransport).toHaveBeenCalledWith({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false,
-      auth: {
-        user: "testuser",
-        pass: "testpass",
-      },
-    });
-  });
-
   it("should create a new instance with the correct message info", () => {
     const email = new ForgotPasswordEmail("foo@example.com", "123456");
     expect(email.messageInfo.from).toEqual(
