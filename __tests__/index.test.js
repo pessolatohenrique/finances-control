@@ -4,6 +4,7 @@ require("./unit/recipe.test");
 require("./unit/email.test");
 require("./unit/error.test");
 require("./unit/strings.test");
+require("./unit/excel-generator.test");
 
 // // integration tests
 // require("./integration/user.test");
