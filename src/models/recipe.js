@@ -89,8 +89,6 @@ module.exports = (sequelize, DataTypes) => {
       const consolidated = [...categories].map((item) => {
         const expenses = this.filterExpensesCategory(recipe_comparative, item);
 
-        console.log("Expenses", expenses);
-
         const category_item = this.findRecipeComparative(
           recipe_comparative,
           item

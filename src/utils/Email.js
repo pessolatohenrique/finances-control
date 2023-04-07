@@ -52,4 +52,4 @@ class ForgotPasswordEmail extends Email {
   }
 }
 
-module.exports = { ForgotPasswordEmail };
+module.exports = { Email, ForgotPasswordEmail };
