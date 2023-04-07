@@ -3,6 +3,7 @@ require("./unit/budget.test");
 require("./unit/recipe.test");
 require("./unit/email.test");
 require("./unit/error.test");
+require("./unit/strings.test");
 
 // // integration tests
 // require("./integration/user.test");
