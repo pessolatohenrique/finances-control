@@ -9,6 +9,12 @@ O objetivo deste projeto é realizar o controle de finanças pessoais, por meio 
 - Node.js
 - Sequelize (ORM)
 
+### Resultado do Sonarqube - análise estática e qualidade de código
+
+A imagem abaixo demonstra o resultado obtido via Sonarqube para o projeto
+
+![Resultado do Sonarqube](https://raw.githubusercontent.com/pessolatohenrique/finances-control/main/resultsonar.png)
+
 ### Instalação do projeto
 
 Acesse a pasta do projeto e rode o comando para instalar as dependências npm:
