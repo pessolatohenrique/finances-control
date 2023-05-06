@@ -75,6 +75,20 @@ Para visualização de reports, acessar o caminho abaixo
 
     __tests__/coverage/Icov-report/index.html
 
+### Sonarqube - Análise estática e qualidade do código-fonte
+
+É possível verificar sobre a qualidade do código utilizando o Sonarqube. Para isso, suba uma instância do Sonarqube via sistema operacional ou Docker, e execute o seguinte comando:
+
+    docker run \
+    --rm \
+    -e SONAR_HOST_URL="<DOCKER-IP>:9000" \
+    -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=finances-control \
+    -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info  \
+    -Dsonar.exclusions=**/src/routes/**,**/src/redis/**,**/src/config/**,**/__tests__/**,**/src/middlewares/**,**/src/seeders/**,**/src/migrations/**,**/index.js,**/jest.config.js" \
+    -e SONAR_TOKEN="<GENERATED-TOKEN>" \
+    -v "$(pwd):/usr/src" \
+    sonarsource/sonar-scanner-cli
+
 ### Observações
 
 Os endpoints criados podem ser importados por meio do arquivo "endpoints.json" em um Software como o Postman (ou semelhante).

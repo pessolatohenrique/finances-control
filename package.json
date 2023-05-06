@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon ./src/index.js --ignore __tests__",
     "pretest": "NODE_ENV=test sequelize db:migrate && NODE_ENV=test sequelize db:seed:all",
-    "test": "NODE_ENV=test jest --watchAll --maxWorkers 1 --detectOpenHandles --forceExit || NODE_ENV=test sequelize db:migrate:undo:all",
+    "test": "NODE_ENV=test jest --watchAll --maxWorkers 1 --detectOpenHandles --forceExit --coverage || NODE_ENV=test sequelize db:migrate:undo:all",
     "posttest": "NODE_ENV=test sequelize db:migrate:undo:all",
     "debug": "node --inspect ./src/index.js"
   },

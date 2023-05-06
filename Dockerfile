@@ -1,11 +1,13 @@
 FROM node:10.22.1
 
+USER nodeuser
+
 WORKDIR /var/www/html
 
 COPY package.json ./
-RUN npm install
+RUN npm install --ignore-scripts
 
-COPY . .
+COPY src .
 COPY env-example .env
 COPY sequelizerc-example .sequelizerc
 
