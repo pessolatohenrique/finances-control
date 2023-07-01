@@ -23,25 +23,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "expenseId",
       });
     }
-
-    static mountQuery(month, year, user) {
-      let whereCondition = { userId: user.id };
-
-      if (month) {
-        // lógica na model, montando o where por month
-        whereCondition = {
-          ...whereCondition,
-          "$UserExpense.transaction_date$": {
-            [Op.between]: [
-              moment().format(`${year}-${month}-01`),
-              moment().format(`${year}-${month}-31`),
-            ],
-          },
-        };
-      }
-
-      return whereCondition;
-    }
   }
   UserExpense.init(
     {

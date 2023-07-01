@@ -1,6 +1,6 @@
+const BudgetContext = require("../business/BudgetContext");
+const UserEarningStrategy = require("../business/UserEarningStrategy");
 const db = require("../models");
-const { Op } = require("sequelize");
-const moment = require("moment");
 const User = require("../models").User;
 const Earning = require("../models").Earning;
 const UserEarning = require("../models").UserEarning;
@@ -10,7 +10,8 @@ class UserEarningController {
   static async index(req, res, next) {
     try {
       const { month, year } = req.query;
-      let whereCondition = UserEarning.mountQuery(month, year, req.user);
+      const budgetContext = new BudgetContext(new UserEarningStrategy());
+      const whereCondition = budgetContext.mountQuery({ month, year, user: req.user });
 
       const result = await UserEarning.findAll({
         where: whereCondition,

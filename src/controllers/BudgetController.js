@@ -33,6 +33,7 @@ class BudgetController {
       const result = await Budget.build({ year, month, user: req.user });
       return res.status(200).json(result);
     } catch (error) {
+      console.log("error:", error);
       return next(error);
     }
   }

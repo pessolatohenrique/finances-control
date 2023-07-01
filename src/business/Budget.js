@@ -1,69 +1,20 @@
-const UserEarning = require("../models").UserEarning;
-const UserExpense = require("../models").UserExpense;
-const Expense = require("../models").Expense;
 const Category = require("../models").Category;
 const Recipe = require("../models").Recipe;
-const User = require("../models").User;
-const Earning = require("../models").Earning;
-
-const includeExpense = [
-  User,
-  {
-    model: Expense,
-    include: [
-      {
-        model: UserExpense,
-        attributes: ["expenseId", "userId"],
-        as: "userExpenseCategory",
-        include: {
-          model: Category,
-        },
-      },
-    ],
-  },
-];
+const BudgetContext = require("./BudgetContext");
+const UserEarningStrategy = require("./UserEarningStrategy");
+const UserExpenseStrategy = require("./UserExpenseStrategy");
 
 class Budget {
   static async build({ year, month, user }) {
-    const where_condition_earning = await UserEarning.mountQuery(
-      month,
-      year,
-      user
-    );
+    const budgetContext = new BudgetContext(new UserEarningStrategy());
+    budgetContext.mountQuery({ month, year, user });
+    const sum_earning = await budgetContext.sumValues();
+    const earnings = await budgetContext.findAllEntity();
 
-    const where_condition_expense = await UserExpense.mountQuery(
-      month,
-      year,
-      user
-    );
-
-    const sum_earning = await UserEarning.sum("value", {
-      attribute: "sum",
-      where: where_condition_earning,
-    });
-
-    const sum_expense = await UserExpense.sum("value", {
-      attribute: "sum",
-      where: where_condition_expense,
-    });
-
-    const earnings = await UserEarning.findAll({
-      attributes: { include: ["id"] },
-      where: where_condition_earning,
-      include: [User, Earning],
-    });
-
-    let expenses = await UserExpense.findAll({
-      attributes: {
-        include: ["id"],
-      },
-      where: where_condition_expense,
-      include: includeExpense,
-    });
-
-    expenses = [
-      ...new Map(expenses.map((item) => [item["id"], item])).values(),
-    ];
+    budgetContext.setStrategy(new UserExpenseStrategy());
+    budgetContext.mountQuery({ month, year, user });
+    const sum_expense = await budgetContext.sumValues();
+    const expenses = await budgetContext.findAllEntity();
 
     const recipe = await Recipe.findOne({
       where: { id: user.recipeId },

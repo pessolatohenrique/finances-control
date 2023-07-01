@@ -1,5 +1,4 @@
 // integration tests
-//require("./integration/user.test");
 require("./integration/session.test");
 require("./integration/recipe.test");
 require("./integration/category.test");
